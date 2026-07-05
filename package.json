@@ -16,6 +16,7 @@
     "cf:preview": "opennextjs-cloudflare preview",
     "cf:deploy": "opennextjs-cloudflare deploy",
     "cf:dry-run": "wrangler deploy --dry-run --outdir .wrangler/dry-run",
+    "deploy": "opennextjs-cloudflare deploy",
     "download:csl": "node scripts/download-csl.mjs",
     "sync:nlm": "node scripts/sync-nlm.mjs",
     "csl:clone": "git clone https://github.com/citation-style-language/styles.git data/csl/all-styles",
