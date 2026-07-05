@@ -29,7 +29,7 @@ export function FormatSelector({
         <select
           value={selectedSlug}
           onChange={(e) => onChange(e.target.value)}
-          className="min-h-[44px] w-full rounded-xl bg-subtle text-ink px-4 py-2 transition-colors hover:bg-line focus:bg-line focus:outline-none"
+          className="select-control w-full px-4 py-2"
         >
           {formats.map((f) => (
             <option key={f.slug} value={f.slug}>
@@ -48,7 +48,7 @@ export function FormatSelector({
         <select
           value={selectedSlug}
           onChange={(e) => onChange(e.target.value)}
-          className="rounded-xl bg-subtle px-4 py-2.5 text-sm text-ink hover:bg-line focus:bg-line focus:outline-none transition-colors"
+          className="select-control px-4 py-2.5 text-sm"
           aria-label="Citation style"
         >
           {formats.map((f) => (
@@ -64,7 +64,7 @@ export function FormatSelector({
           <select
             value={selectedVersion ?? versions[0].key}
             onChange={(e) => onVersionChange(e.target.value)}
-            className="rounded-xl bg-subtle px-4 py-2.5 text-sm text-ink hover:bg-line focus:bg-line focus:outline-none transition-colors"
+            className="select-control px-4 py-2.5 text-sm"
             aria-label="Edition variant"
           >
             {versions.map((v) => (

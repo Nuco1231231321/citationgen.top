@@ -32,14 +32,24 @@ type CrossrefResponse<T> = {
   message: T;
 };
 
+const crossrefMailto = process.env.CROSSREF_MAILTO?.trim();
+
 const crossrefHeaders = {
-  "User-Agent": "CitationGenerator/0.1 (mailto:metadata@example.com)"
+  "User-Agent": crossrefMailto
+    ? `CitationGenerator/0.1 (mailto:${crossrefMailto})`
+    : "CitationGenerator/0.1"
 };
+
+function crossrefApiUrl(path: string, params = new URLSearchParams()) {
+  if (crossrefMailto) params.set("mailto", crossrefMailto);
+  const query = params.toString();
+  return `https://api.crossref.org${path}${query ? `?${query}` : ""}`;
+}
 
 export async function lookupCrossrefDoi(doi: string) {
   const cleanDoi = encodeURIComponent(doi);
   const response = await fetchJson<CrossrefResponse<CrossrefWork>>(
-    `https://api.crossref.org/works/${cleanDoi}?mailto=metadata@example.com`,
+    crossrefApiUrl(`/works/${cleanDoi}`),
     {
       headers: crossrefHeaders,
       timeoutMs: 8000,
@@ -60,13 +70,12 @@ export async function lookupCrossrefDoi(doi: string) {
 export async function searchCrossrefTitle(title: string) {
   const params = new URLSearchParams({
     "query.title": title,
-    rows: "1",
-    mailto: "metadata@example.com"
+    rows: "1"
   });
 
   const response = await fetchJson<
     CrossrefResponse<{ items?: CrossrefWork[]; "total-results"?: number }>
-  >(`https://api.crossref.org/works?${params.toString()}`, {
+  >(crossrefApiUrl("/works", params), {
     headers: crossrefHeaders,
     timeoutMs: 8000,
     errorLabel: "CrossRef title search"

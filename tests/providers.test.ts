@@ -8,26 +8,31 @@ afterEach(() => {
 
 describe("metadata providers", () => {
   it("normalizes CrossRef DOI metadata", async () => {
+    const fetchMock = vi.fn(async (_url: RequestInfo | URL, _init?: RequestInit) =>
+      Response.json({
+        status: "ok",
+        message: {
+          DOI: "10.1021/jacs.5b01053",
+          title: ["Conversion of Aldehyde to Alkane"],
+          author: [{ given: "Alireza", family: "Shokri" }],
+          issued: { "date-parts": [[2015, 6, 24]] },
+          "container-title": ["Journal of the American Chemical Society"],
+          volume: "137",
+          issue: "24",
+          page: "7686-7691"
+        }
+      })
+    );
     vi.stubGlobal(
       "fetch",
-      vi.fn(async () =>
-        Response.json({
-          status: "ok",
-          message: {
-            DOI: "10.1021/jacs.5b01053",
-            title: ["Conversion of Aldehyde to Alkane"],
-            author: [{ given: "Alireza", family: "Shokri" }],
-            issued: { "date-parts": [[2015, 6, 24]] },
-            "container-title": ["Journal of the American Chemical Society"],
-            volume: "137",
-            issue: "24",
-            page: "7686-7691"
-          }
-        })
-      )
+      fetchMock
     );
 
     const { metadata } = await lookupCrossrefDoi("10.1021/jacs.5b01053");
+    const [url, init] = fetchMock.mock.calls[0];
+    const headers = init?.headers as Record<string, string>;
+    expect(String(url)).not.toContain("metadata@example.com");
+    expect(headers["User-Agent"]).not.toContain("metadata@example.com");
     expect(metadata.sourceProvider).toBe("crossref");
     expect(metadata.title).toBe("Conversion of Aldehyde to Alkane");
     expect(metadata.authors[0]).toEqual({ given: "Alireza", family: "Shokri" });

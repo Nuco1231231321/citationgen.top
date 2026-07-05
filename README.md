@@ -33,10 +33,14 @@ Cloudflare build command:
 npm run cf:build
 ```
 
-Required production variable:
+Required production variables:
 
 ```bash
 NEXT_PUBLIC_SITE_URL=https://citationgen.top
+CROSSREF_MAILTO=metadata-contact@your-domain.example
 ```
+
+`CROSSREF_MAILTO` must be a real monitored address. CrossRef uses it for polite
+pool identification and contact when automated metadata requests misbehave.
 
 The Worker is configured in `wrangler.jsonc` as `citationgen-top`.

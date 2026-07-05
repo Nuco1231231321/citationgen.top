@@ -83,7 +83,7 @@ export function ManualSourcePanel({ onChoose }: ManualSourcePanelProps) {
   const all = manualSourceTemplates.filter((template) => !template.featured);
 
   return (
-    <div className="mt-5 rounded-3xl bg-surface p-6 md:p-8">
+    <div className="mt-5 rounded-3xl bg-surface border border-line p-6 md:p-8">
       <div className="grid gap-6 lg:grid-cols-[0.3fr_0.7fr]">
         <div>
           <p className="text-xs font-semibold uppercase tracking-wider text-faint">Source types</p>
@@ -103,7 +103,7 @@ export function ManualSourcePanel({ onChoose }: ManualSourcePanelProps) {
                   key={template.label}
                   type="button"
                   onClick={() => onChoose(template)}
-                  className="rounded-2xl bg-subtle p-4 text-left transition-all hover:bg-line cursor-pointer"
+                  className="manual-source-card rounded-2xl p-4 text-left"
                 >
                   <strong className="text-sm text-ink">{template.label}</strong>
                   <small className="block text-xs text-faint mt-1">{template.helper}</small>
@@ -119,7 +119,7 @@ export function ManualSourcePanel({ onChoose }: ManualSourcePanelProps) {
                   key={template.label}
                   type="button"
                   onClick={() => onChoose(template)}
-                  className="rounded-full bg-subtle px-3.5 py-1.5 text-xs text-dim transition-colors hover:bg-line hover:text-ink cursor-pointer"
+                  className="manual-source-chip px-3.5 py-1.5 text-xs"
                 >
                   {template.label}
                 </button>

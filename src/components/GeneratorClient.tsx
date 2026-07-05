@@ -323,7 +323,7 @@ export function GeneratorClient({
   function revealResultRegion(shouldReveal?: boolean) {
     if (!shouldReveal) return;
     window.setTimeout(() => {
-      resultRegionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      resultRegionRef.current?.focus({ preventScroll: true });
     }, 60);
   }
 
@@ -482,9 +482,14 @@ export function GeneratorClient({
 
         {/* Results area - only shows after citation is generated */}
         {(state === "loading" || state === "success" || state === "error" || result) && (
-          <div ref={resultRegionRef} className="mt-6 grid scroll-mt-24 gap-6 lg:grid-cols-[1fr_1fr]">
+          <div
+            ref={resultRegionRef}
+            tabIndex={-1}
+            aria-label="Citation checks and generated result"
+            className="mt-6 grid scroll-mt-24 gap-6 lg:grid-cols-[1fr_1fr]"
+          >
             {/* Citation checks */}
-            <div className="rounded-3xl bg-surface p-6">
+            <div className="rounded-3xl bg-surface border border-line p-6">
               <div className="flex items-start justify-between gap-4 mb-4">
                 <div>
                   <h2 className="font-editorial text-xl text-ink">
@@ -520,7 +525,7 @@ export function GeneratorClient({
             </div>
 
             {/* Citation result */}
-            <div className="rounded-3xl bg-surface p-6">
+            <div className="rounded-3xl bg-surface border border-line p-6">
               <div className="flex items-start justify-between gap-4 mb-4">
                 <h2 className="font-editorial text-xl text-ink">
                   Result
@@ -546,7 +551,7 @@ export function GeneratorClient({
                   <button
                     type="button"
                     onClick={shareCitation}
-                    className="mt-4 inline-flex items-center gap-2 text-sm text-faint hover:text-ink transition-colors cursor-pointer bg-transparent border-none"
+                    className="action-ghost copy-share-link mt-4"
                   >
                     <ShareNetwork aria-hidden="true" size={16} />
                     Copy share link
@@ -584,7 +589,7 @@ export function GeneratorClient({
     <section id="generator" className="site-shell py-8">
       <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
         {/* --- left column: input --- */}
-        <div className="rounded-2xl bg-surface border border-[#f0efe9] p-5 md:p-7">
+        <div className="rounded-3xl bg-surface border border-line p-5 md:p-7">
           <div className="mb-5 border-b border-line pb-5">
             <p className="text-[11px] font-semibold uppercase tracking-[0.04em] text-faint">{introLabel}</p>
             <h2 className="font-editorial text-[30px] leading-[1.2] text-ink">
@@ -663,7 +668,7 @@ export function GeneratorClient({
                   setState("empty");
                   setError("");
                 }}
-                className="inline-flex items-center gap-2 rounded-xl border border-line bg-surface text-dim px-5 py-2.5 text-sm font-medium hover:border-ink hover:text-ink transition cursor-pointer w-full whitespace-nowrap sm:w-auto"
+                className="action-secondary w-full whitespace-nowrap sm:w-auto"
               >
                 Enter fields manually
               </button>
@@ -676,7 +681,7 @@ export function GeneratorClient({
           <button
             type="button"
             onClick={() => setShowSourceTypes((v) => !v)}
-            className="inline-flex items-center gap-2 rounded-xl bg-transparent text-dim px-4 py-2.5 text-sm font-medium hover:bg-subtle hover:text-ink transition cursor-pointer border-none mt-3 whitespace-nowrap"
+            className="action-ghost mt-3 whitespace-nowrap"
           >
             {showSourceTypes ? "Hide source types" : "More source types"}
           </button>
@@ -685,7 +690,7 @@ export function GeneratorClient({
         </div>
 
         {/* --- right column: output --- */}
-        <div className="rounded-2xl bg-surface border border-[#f0efe9] p-5 md:p-7">
+        <div className="rounded-3xl bg-surface border border-line p-5 md:p-7">
           <div className="flex items-start justify-between gap-4 border-b border-line pb-5">
             <div>
               <p className="text-[11px] font-semibold uppercase tracking-[0.04em] text-faint">Output</p>
@@ -720,7 +725,7 @@ export function GeneratorClient({
                 <button
                   type="button"
                   onClick={shareCitation}
-                  className="inline-flex items-center gap-2 rounded-xl bg-transparent text-dim px-4 py-2.5 text-sm font-medium hover:bg-subtle hover:text-ink transition cursor-pointer border-none whitespace-nowrap"
+                  className="action-ghost whitespace-nowrap"
                 >
                   <ShareNetwork aria-hidden="true" size={16} />
                   Share link
@@ -778,7 +783,7 @@ function LoadingState({ compact }: { compact: boolean }) {
 
 function EmptyState({ compact }: { compact: boolean }) {
   return (
-    <div className={cn("rounded-2xl bg-subtle/60", compact ? "mt-4 p-4" : "mt-6 p-6")}>
+    <div className={cn("result-card", compact ? "mt-4 p-4" : "mt-6 p-6")}>
       <p className="text-sm font-medium text-ink">No citation yet.</p>
       <p className="mt-1.5 text-pretty text-sm leading-6 text-dim">
         Paste a DOI, ISBN, URL, or source title to begin. If no public record is found, you can enter fields manually.
@@ -789,7 +794,7 @@ function EmptyState({ compact }: { compact: boolean }) {
 
 function ErrorState({ message, compact }: { message: string; compact: boolean }) {
   return (
-    <div className={cn("rounded-2xl bg-subtle/60", compact ? "mt-4 p-4" : "mt-6 p-6")}>
+    <div className={cn("result-card border-accent/30 bg-[#faf6f0]", compact ? "mt-4 p-4" : "mt-6 p-6")}>
       <p className="text-sm font-medium text-ink">Lookup did not finish.</p>
       <p className="mt-1.5 text-pretty text-sm leading-6 text-dim">{message}</p>
     </div>

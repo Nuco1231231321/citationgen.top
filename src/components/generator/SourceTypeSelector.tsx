@@ -80,10 +80,10 @@ export function SourceTypeSelector({
               onClick={() => onChange(option.value)}
               aria-pressed={active}
               className={cn(
-                "rounded-xl text-left transition-all duration-150",
+                "source-type-option",
                 compact ? "min-h-11 p-2.5" : "min-h-14 p-3",
                 active
-                  ? "bg-ink text-page"
+                  ? "is-selected"
                   : "bg-subtle text-ink hover:bg-line"
               )}
             >

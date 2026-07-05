@@ -15,8 +15,10 @@ export function CitationTrustPanel({
 }: TrustPanelProps) {
   return (
     <div className="grid gap-3">
-      <div className="flex items-start gap-3 rounded-xl p-3">
-        <Database aria-hidden="true" size={19} />
+      <div className={`trust-card ${sourceLabel ? "is-ready" : ""}`}>
+        <span className="trust-icon" aria-hidden="true">
+          <Database size={19} />
+        </span>
         <div>
           <p>Source shown</p>
           <span>
@@ -26,8 +28,10 @@ export function CitationTrustPanel({
           </span>
         </div>
       </div>
-      <div className="flex items-start gap-3 rounded-xl p-3">
-        <WarningCircle aria-hidden="true" size={19} />
+      <div className={`trust-card ${warningCount > 0 ? "is-warning" : "is-ready"}`}>
+        <span className="trust-icon" aria-hidden="true">
+          <WarningCircle size={19} />
+        </span>
         <div>
           <p>Missing fields flagged</p>
           <span>
@@ -37,8 +41,10 @@ export function CitationTrustPanel({
           </span>
         </div>
       </div>
-      <div className="flex items-start gap-3 rounded-xl p-3">
-        <ListChecks aria-hidden="true" size={19} />
+      <div className={`trust-card ${hasEditableFields ? "is-ready" : ""}`}>
+        <span className="trust-icon" aria-hidden="true">
+          <ListChecks size={19} />
+        </span>
         <div>
           <p>Fields stay editable</p>
           <span>

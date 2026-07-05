@@ -4,35 +4,35 @@ import { articles } from "@/lib/articles";
 import { absoluteUrl } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date();
+  const contentLastModified = new Date("2026-07-05T00:00:00.000Z");
   return [
     {
       url: absoluteUrl("/"),
-      lastModified: now,
+      lastModified: contentLastModified,
       changeFrequency: "weekly",
       priority: 1
     },
     {
       url: absoluteUrl("/tools/"),
-      lastModified: now,
+      lastModified: contentLastModified,
       changeFrequency: "weekly",
       priority: 0.9
     },
     {
       url: absoluteUrl("/blog/"),
-      lastModified: now,
+      lastModified: contentLastModified,
       changeFrequency: "weekly",
       priority: 0.8
     },
     {
       url: absoluteUrl("/about/"),
-      lastModified: now,
+      lastModified: contentLastModified,
       changeFrequency: "monthly",
       priority: 0.6
     },
     ...allGeneratorFormats.map((format) => ({
       url: absoluteUrl(generatorPath(format.slug)),
-      lastModified: now,
+      lastModified: contentLastModified,
       changeFrequency: "weekly" as const,
       priority: 0.9
     })),

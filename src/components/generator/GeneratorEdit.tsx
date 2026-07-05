@@ -18,7 +18,7 @@ const editableSourceTypes: Array<CitationMetadata["sourceType"]> = [
 ];
 
 const fieldClasses =
-  "min-h-[44px] w-full rounded-xl bg-subtle text-ink px-4 py-2.5 transition-colors hover:bg-line focus:bg-line focus:outline-none placeholder:text-dim";
+  "field px-4 py-2.5 placeholder:text-dim";
 
 export function GeneratorEdit({
   metadata,
@@ -44,7 +44,7 @@ export function GeneratorEdit({
   }
 
   return (
-    <div className="rounded-3xl bg-surface p-6 md:p-8 mt-6">
+    <div className="rounded-3xl bg-surface border border-line p-6 md:p-8 mt-6">
       <div className="max-w-[640px] pb-5 border-b border-line/50">
         <p className="text-xs font-semibold uppercase tracking-wider text-faint">
           Editable metadata
@@ -229,7 +229,7 @@ export function GeneratorEdit({
         type="button"
         onClick={onRegenerate}
         disabled={loading}
-        className="mt-6 inline-flex items-center gap-2 rounded-xl bg-ink text-page px-6 py-2.5 text-sm font-semibold hover:bg-[#2a2a25] transition cursor-pointer border-none disabled:opacity-50"
+        className="action-primary mt-6 px-6"
       >
         Regenerate from fields
       </button>

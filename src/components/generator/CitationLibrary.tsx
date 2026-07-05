@@ -74,7 +74,7 @@ export function CitationLibrary({ items, onRemove, onClear }: CitationLibraryPro
 
   if (!items.length) {
     return (
-      <section className="rounded-3xl bg-surface mt-6 p-6" aria-labelledby="citation-library-heading">
+      <section className="rounded-3xl bg-surface border border-line mt-6 p-6" aria-labelledby="citation-library-heading">
         <div className="grid gap-3 text-center">
           <div className="mx-auto flex size-10 items-center justify-center rounded-xl bg-subtle text-dim">
             <BookOpen aria-hidden="true" size={20} />
@@ -93,7 +93,7 @@ export function CitationLibrary({ items, onRemove, onClear }: CitationLibraryPro
   }
 
   return (
-    <section className="rounded-3xl bg-surface mt-6 p-6" aria-labelledby="citation-library-heading">
+    <section className="rounded-3xl bg-surface border border-line mt-6 p-6" aria-labelledby="citation-library-heading">
       <div className="flex flex-col gap-4 border-b border-line pb-5 md:flex-row md:items-start md:justify-between">
         <div>
           <h2 id="citation-library-heading" className="font-editorial text-xl leading-snug text-ink">
@@ -111,7 +111,7 @@ export function CitationLibrary({ items, onRemove, onClear }: CitationLibraryPro
           <button
             type="button"
             onClick={copyLibrary}
-            className="inline-flex items-center gap-2 rounded-xl bg-ink px-4 py-2.5 text-sm font-semibold text-page transition-colors hover:bg-[#2a2a25]"
+            className="action-primary px-4"
           >
             {copied ? <Check aria-hidden="true" size={16} /> : <ClipboardText aria-hidden="true" size={16} />}
             {copied ? "Copied" : "Copy all"}
@@ -119,7 +119,7 @@ export function CitationLibrary({ items, onRemove, onClear }: CitationLibraryPro
           <button
             type="button"
             onClick={() => downloadLibrary("txt")}
-            className="inline-flex items-center gap-2 rounded-xl bg-subtle px-4 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-line"
+            className="action-secondary px-4"
           >
             <DownloadSimple aria-hidden="true" size={16} />
             TXT
@@ -127,7 +127,7 @@ export function CitationLibrary({ items, onRemove, onClear }: CitationLibraryPro
           <button
             type="button"
             onClick={() => downloadLibrary("html")}
-            className="inline-flex items-center gap-2 rounded-xl bg-subtle px-4 py-2.5 text-sm font-medium text-ink transition-colors hover:bg-line"
+            className="action-secondary px-4"
           >
             <DownloadSimple aria-hidden="true" size={16} />
             HTML
@@ -137,14 +137,14 @@ export function CitationLibrary({ items, onRemove, onClear }: CitationLibraryPro
               <button
                 type="button"
                 onClick={confirmClearLibrary}
-                className="rounded-lg bg-ink px-3 py-1.5 text-xs font-semibold text-page"
+                className="rounded-lg bg-ink px-3 py-1.5 text-xs font-semibold text-page transition-colors hover:bg-[#242421]"
               >
                 Confirm clear
               </button>
               <button
                 type="button"
                 onClick={() => setConfirmClear(false)}
-                className="rounded-lg px-3 py-1.5 text-xs font-medium text-dim hover:bg-surface hover:text-ink"
+                className="rounded-lg px-3 py-1.5 text-xs font-medium text-dim transition-colors hover:bg-surface hover:text-ink"
               >
                 Cancel
               </button>
@@ -153,7 +153,7 @@ export function CitationLibrary({ items, onRemove, onClear }: CitationLibraryPro
             <button
               type="button"
               onClick={() => setConfirmClear(true)}
-              className="rounded-xl px-3 py-2.5 text-sm font-medium text-faint underline underline-offset-2 transition-colors hover:text-ink"
+              className="action-danger px-3"
             >
               Clear library
             </button>
@@ -168,7 +168,7 @@ export function CitationLibrary({ items, onRemove, onClear }: CitationLibraryPro
           const itemCopied = copiedItemId === item.id;
 
           return (
-            <li key={item.id} className="rounded-2xl bg-subtle p-4">
+            <li key={item.id} className="library-item rounded-2xl p-4">
               <div className="flex items-start gap-3">
                 <span className="shrink-0 rounded-lg bg-surface px-2 py-1 text-xs tabular-nums text-dim">
                   {displayIndex}
@@ -196,7 +196,7 @@ export function CitationLibrary({ items, onRemove, onClear }: CitationLibraryPro
                 <button
                   type="button"
                   onClick={() => copyLibraryItem(item, index)}
-                  className="shrink-0 rounded-lg p-2 text-faint transition-colors hover:bg-surface hover:text-ink"
+                  className="icon-action shrink-0"
                   aria-label={`Copy citation ${index + 1}`}
                 >
                   {itemCopied ? (
@@ -208,7 +208,7 @@ export function CitationLibrary({ items, onRemove, onClear }: CitationLibraryPro
                 <button
                   type="button"
                   onClick={() => onRemove(item.id)}
-                  className="shrink-0 rounded-lg p-2 text-faint transition-colors hover:bg-surface hover:text-ink"
+                  className="icon-action shrink-0"
                   aria-label={`Remove citation ${index + 1} from library`}
                 >
                   <Trash aria-hidden="true" size={16} />

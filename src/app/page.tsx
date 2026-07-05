@@ -186,13 +186,41 @@ export default function HomePage() {
       <JsonLd data={homeJsonLd()} />
 
       <div className="home-hero-stage">
-        <section className="site-shell hero-copy flex flex-col items-center text-center">
-          <h1 className="font-editorial max-w-[18ch] text-balance text-[34px] leading-[1.12] text-ink md:text-[56px]">
-            Citation generator with visible source checks
-          </h1>
-          <p className="mt-4 max-w-[58ch] text-pretty text-[16px] leading-7 text-dim">
-            Paste a DOI, ISBN, URL, or title. Check the data trail before you copy.
-          </p>
+        <section className="site-shell home-hero-grid">
+          <div className="hero-copy flex flex-col items-start text-left">
+            <h1 className="font-editorial max-w-[18ch] text-balance text-[34px] leading-[1.12] text-ink md:text-[56px]">
+              Citation generator with visible source checks
+            </h1>
+            <p className="mt-4 max-w-[58ch] text-pretty text-[16px] leading-7 text-dim">
+              Paste a DOI, ISBN, URL, or title. Check the data trail before you copy.
+            </p>
+            <ul className="hero-proof-list" aria-label="CitationGen trust checks">
+              <li>
+                <strong>Source first</strong>
+                <span>CrossRef, Google Books, URL metadata, NLM, or manual entry.</span>
+              </li>
+              <li>
+                <strong>Warnings visible</strong>
+                <span>Missing author, date, DOI, page, and journal fields stay exposed.</span>
+              </li>
+              <li>
+                <strong>Edit before copy</strong>
+                <span>Every generated citation keeps the metadata fields editable.</span>
+              </li>
+            </ul>
+          </div>
+
+          <figure className="home-hero-media" aria-label="Citation generator workspace">
+            <Image
+              src="/images/home/citation-generator-hero-desk.jpg"
+              alt="Warm desk scene showing a citation generator, research books, notes, and a copy-ready citation."
+              width={1800}
+              height={1012}
+              priority
+              sizes="(max-width: 760px) calc(100vw - 28px), 520px"
+              className="home-hero-image"
+            />
+          </figure>
         </section>
 
         <GeneratorClient
@@ -203,18 +231,6 @@ export default function HomePage() {
           introLabel="Start citing"
           introText="Choose a style, paste a source, and generate a citation without leaving this page."
         />
-
-        <figure className="site-shell home-hero-media" aria-label="Citation generator workspace">
-          <Image
-            src="/images/home/citation-generator-hero-desk.jpg"
-            alt="Warm desk scene showing a citation generator, research books, notes, and a copy-ready citation."
-            width={1800}
-            height={1012}
-            priority
-            sizes="(max-width: 760px) calc(100vw - 28px), 1120px"
-            className="home-hero-image"
-          />
-        </figure>
       </div>
 
       {/* Why section */}
@@ -323,7 +339,7 @@ export default function HomePage() {
               </p>
             </div>
             <Link
-              href="/citation-generators/"
+              href="/tools/"
               className="hidden rounded-xl bg-subtle px-4 py-2 text-sm font-medium text-ink no-underline transition-colors hover:bg-line sm:inline-flex"
             >
               Tools column
