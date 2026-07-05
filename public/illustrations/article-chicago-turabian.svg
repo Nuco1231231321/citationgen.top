@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" role="img" aria-labelledby="title desc">
+  <title id="title">Chicago versus Turabian illustration</title>
+  <desc id="desc">Two stacks of papers compared side by side with notes between them.</desc>
+  <rect width="1200" height="750" fill="#efeeeb"/>
+  <rect x="80" y="72" width="1040" height="606" rx="18" fill="#fff" stroke="#e7e6e1" stroke-width="3"/>
+  <g transform="translate(170 178)">
+    <rect x="24" y="52" width="318" height="320" rx="12" fill="#f8f8f6" stroke="#121212" stroke-width="5"/>
+    <rect x="0" y="28" width="318" height="320" rx="12" fill="#f8f8f6" stroke="#121212" stroke-width="5"/>
+    <path d="M52 104h166M52 150h206M52 196h180M52 262h132" stroke="#121212" stroke-width="6" stroke-linecap="round"/>
+    <path d="M52 314h210" stroke="#d97757" stroke-width="7" stroke-linecap="round"/>
+    <text x="52" y="76" fill="#121212" font-family="Georgia, serif" font-size="36">Chicago</text>
+  </g>
+  <g transform="translate(710 178)">
+    <rect x="24" y="52" width="318" height="320" rx="12" fill="#f8f8f6" stroke="#121212" stroke-width="5"/>
+    <rect x="0" y="28" width="318" height="320" rx="12" fill="#f8f8f6" stroke="#121212" stroke-width="5"/>
+    <path d="M52 104h176M52 150h196M52 196h160M52 262h132" stroke="#121212" stroke-width="6" stroke-linecap="round"/>
+    <path d="M52 314h210" stroke="#d97757" stroke-width="7" stroke-linecap="round"/>
+    <text x="52" y="76" fill="#121212" font-family="Georgia, serif" font-size="36">Turabian</text>
+  </g>
+  <circle cx="600" cy="372" r="74" fill="#efeeeb" stroke="#121212" stroke-width="6"/>
+  <text x="560" y="392" fill="#121212" font-family="Georgia, serif" font-size="58">vs</text>
+  <path d="M520 522c52 34 108 35 168 2M518 222c52-33 108-35 168-4" fill="none" stroke="#d97757" stroke-width="6" stroke-linecap="round"/>
+  <path d="M154 594h260M786 594h260" stroke="#121212" stroke-width="5" stroke-linecap="round"/>
+</svg>

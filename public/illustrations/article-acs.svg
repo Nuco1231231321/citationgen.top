@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" role="img" aria-labelledby="title desc">
+  <title id="title">ACS citation illustration</title>
+  <desc id="desc">A chemistry journal, DOI label, and citation notes drawn in ink on warm paper.</desc>
+  <rect width="1200" height="750" fill="#efeeeb"/>
+  <rect x="78" y="70" width="1044" height="610" rx="18" fill="#fff" stroke="#e7e6e1" stroke-width="3"/>
+  <path d="M172 178c104-34 210-34 318 0v386c-106-32-212-32-318 0V178Z" fill="#f8f8f6" stroke="#121212" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M490 178c104-34 210-34 318 0v386c-106-32-212-32-318 0V178Z" fill="#f8f8f6" stroke="#121212" stroke-width="5" stroke-linejoin="round"/>
+  <path d="M490 178v386" fill="none" stroke="#121212" stroke-width="5"/>
+  <path d="M222 238h204M222 284h178M222 330h210M552 242h192M552 288h156M552 334h192" stroke="#121212" stroke-width="6" stroke-linecap="round"/>
+  <path d="M222 422h204M222 468h178M552 422h192M552 468h156" stroke="#7b7974" stroke-width="5" stroke-linecap="round"/>
+  <g transform="translate(820 216)">
+    <circle cx="98" cy="100" r="77" fill="#f8f8f6" stroke="#121212" stroke-width="6"/>
+    <path d="M55 121c28-7 48-32 51-70M91 126c37-11 59-42 62-84M132 127c25-16 38-39 40-69" fill="none" stroke="#121212" stroke-width="6" stroke-linecap="round"/>
+    <path d="M68 172h68" stroke="#d97757" stroke-width="7" stroke-linecap="round"/>
+  </g>
+  <rect x="820" y="456" width="210" height="72" rx="10" fill="#efeeeb" stroke="#121212" stroke-width="5"/>
+  <text x="857" y="502" fill="#121212" font-family="ui-sans-serif, system-ui, sans-serif" font-size="30" font-weight="700">DOI</text>
+  <path d="M856 576h210M856 618h150" stroke="#121212" stroke-width="6" stroke-linecap="round"/>
+  <path d="M1018 172c26-17 52-18 79-1M1060 124c12-24 33-38 63-42M144 612c26 18 58 21 96 8" fill="none" stroke="#d97757" stroke-width="6" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,28 @@
+<svg width="720" height="460" viewBox="0 0 720 460" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Citation desk illustration</title>
+  <desc id="desc">Warm editorial desk with paper citations, source notes, and checked metadata fields.</desc>
+  <rect width="720" height="460" rx="28" fill="#ffffff"/>
+  <rect x="32" y="34" width="656" height="392" rx="24" fill="#f8f8f6" stroke="#e7e6e1"/>
+  <rect x="94" y="84" width="248" height="292" rx="20" fill="#ffffff" stroke="#e7e6e1"/>
+  <rect x="126" y="120" width="112" height="12" rx="6" fill="#121212"/>
+  <rect x="126" y="152" width="170" height="8" rx="4" fill="#373734"/>
+  <rect x="126" y="176" width="134" height="8" rx="4" fill="#7b7974"/>
+  <rect x="126" y="216" width="154" height="8" rx="4" fill="#373734"/>
+  <rect x="126" y="240" width="116" height="8" rx="4" fill="#7b7974"/>
+  <rect x="126" y="264" width="176" height="8" rx="4" fill="#7b7974"/>
+  <path d="M132 318L150 336L188 296" stroke="#121212" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="384" y="96" width="212" height="92" rx="18" fill="#efeeeb" stroke="#e7e6e1"/>
+  <rect x="414" y="126" width="64" height="10" rx="5" fill="#121212"/>
+  <rect x="414" y="152" width="132" height="8" rx="4" fill="#7b7974"/>
+  <circle cx="566" cy="142" r="14" fill="#d97757"/>
+  <rect x="404" y="220" width="178" height="156" rx="20" fill="#ffffff" stroke="#e7e6e1"/>
+  <rect x="432" y="250" width="86" height="10" rx="5" fill="#121212"/>
+  <rect x="432" y="280" width="106" height="8" rx="4" fill="#7b7974"/>
+  <rect x="432" y="304" width="78" height="8" rx="4" fill="#7b7974"/>
+  <rect x="432" y="336" width="82" height="22" rx="11" fill="#efeeeb"/>
+  <path d="M330 112C376 94 415 92 456 114" stroke="#d97757" stroke-width="3" stroke-linecap="round"/>
+  <path d="M328 318C372 348 408 352 444 330" stroke="#373734" stroke-width="2" stroke-linecap="round"/>
+  <path d="M452 322L444 330L455 335" stroke="#373734" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="210" y="396" width="298" height="10" rx="5" fill="#e7e6e1"/>
+  <rect x="250" y="414" width="218" height="8" rx="4" fill="#e7e6e1"/>
+</svg>

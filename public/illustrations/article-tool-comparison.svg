@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 450" fill="none">
+  <rect width="720" height="450" fill="#efeeeb" rx="24"/>
+  <rect x="60" y="180" width="120" height="90" rx="12" fill="#ffffff" stroke="#e7e6e1"/>
+  <rect x="210" y="170" width="120" height="100" rx="12" fill="#ffffff" stroke="#e7e6e1"/>
+  <rect x="360" y="180" width="120" height="90" rx="12" fill="#ffffff" stroke="#e7e6e1"/>
+  <rect x="510" y="170" width="120" height="100" rx="12" fill="#ffffff" stroke="#e7e6e1"/>
+  <circle cx="120" cy="140" r="28" fill="#121212"/>
+  <circle cx="270" cy="130" r="28" fill="#efeeeb" stroke="#e7e6e1"/>
+  <circle cx="420" cy="140" r="28" fill="#efeeeb" stroke="#e7e6e1"/>
+  <circle cx="570" cy="130" r="28" fill="#efeeeb" stroke="#e7e6e1"/>
+  <text x="300" y="70" text-anchor="middle" font-family="Georgia,serif" font-size="22" fill="#121212">5 Citation Tools Tested</text>
+</svg>

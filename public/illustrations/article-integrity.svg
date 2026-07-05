@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 450" fill="none">
+  <rect width="720" height="450" fill="#efeeeb" rx="24"/>
+  <rect x="80" y="120" width="560" height="260" rx="16" fill="#ffffff" stroke="#e7e6e1"/>
+  <rect x="120" y="160" width="480" height="8" rx="4" fill="#efeeeb"/>
+  <rect x="120" y="190" width="400" height="8" rx="4" fill="#efeeeb"/>
+  <rect x="120" y="220" width="440" height="8" rx="4" fill="#efeeeb"/>
+  <rect x="120" y="250" width="300" height="8" rx="4" fill="#efeeeb"/>
+  <rect x="120" y="280" width="480" height="8" rx="4" fill="#efeeeb"/>
+  <rect x="120" y="310" width="360" height="8" rx="4" fill="#efeeeb"/>
+  <rect x="160" y="250" width="8" height="8" rx="2" fill="#d97757"/>
+  <rect x="360" y="310" width="8" height="8" rx="2" fill="#d97757"/>
+  <text x="360" y="100" text-anchor="middle" font-family="Georgia,serif" font-size="22" fill="#121212">Citation Trail = Research Integrity</text>
+</svg>

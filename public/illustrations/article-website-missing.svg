@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" role="img" aria-labelledby="title desc">
+  <title id="title">Website missing metadata illustration</title>
+  <desc id="desc">A browser page with missing author and date fields.</desc>
+  <rect width="1200" height="750" fill="#efeeeb"/>
+  <rect x="82" y="88" width="1036" height="574" rx="18" fill="#fff" stroke="#e7e6e1" stroke-width="3"/>
+  <rect x="160" y="154" width="880" height="440" rx="14" fill="#f8f8f6" stroke="#121212" stroke-width="5"/>
+  <path d="M160 226h880" stroke="#121212" stroke-width="5"/>
+  <circle cx="204" cy="190" r="12" fill="#d97757"/>
+  <circle cx="246" cy="190" r="12" fill="#7b7974"/>
+  <circle cx="288" cy="190" r="12" fill="#7b7974"/>
+  <rect x="354" y="172" width="420" height="36" rx="18" fill="#efeeeb" stroke="#121212" stroke-width="4"/>
+  <path d="M234 294h350M234 352h488M234 410h390" stroke="#121212" stroke-width="6" stroke-linecap="round"/>
+  <g transform="translate(728 294)">
+    <rect x="0" y="0" width="224" height="178" rx="10" fill="#efeeeb" stroke="#121212" stroke-width="5"/>
+    <path d="M36 50h94M36 96h132M36 140h76" stroke="#121212" stroke-width="5" stroke-linecap="round"/>
+    <path d="M166 42l32 32M198 42l-32 32M166 126l32 32M198 126l-32 32" stroke="#d97757" stroke-width="6" stroke-linecap="round"/>
+  </g>
+  <path d="M234 512h190M456 512h190M678 512h190" stroke="#7b7974" stroke-width="5" stroke-linecap="round"/>
+  <text x="220" y="618" fill="#121212" font-family="ui-sans-serif, system-ui, sans-serif" font-size="28" font-weight="700">author?</text>
+  <text x="502" y="618" fill="#121212" font-family="ui-sans-serif, system-ui, sans-serif" font-size="28" font-weight="700">date?</text>
+  <path d="M200 640h114M484 640h90" stroke="#d97757" stroke-width="6" stroke-linecap="round"/>
+</svg>

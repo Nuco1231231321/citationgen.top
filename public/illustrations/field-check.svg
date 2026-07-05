@@ -1,0 +1,35 @@
+<svg width="720" height="420" viewBox="0 0 720 420" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Citation field checklist illustration</title>
+  <desc id="desc">A warm checklist showing title, author, date, source, and warning fields for citation review.</desc>
+  <rect width="720" height="420" rx="28" fill="#ffffff"/>
+  <rect x="44" y="44" width="632" height="332" rx="24" fill="#f8f8f6" stroke="#e7e6e1"/>
+  <rect x="94" y="82" width="532" height="256" rx="20" fill="#ffffff" stroke="#e7e6e1"/>
+  <rect x="128" y="118" width="102" height="12" rx="6" fill="#121212"/>
+  <rect x="128" y="150" width="420" height="1" fill="#e7e6e1"/>
+  <g>
+    <circle cx="142" cy="184" r="13" fill="#121212"/>
+    <path d="M136 184L140 188L149 179" stroke="#f8f8f6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="172" y="176" width="74" height="8" rx="4" fill="#373734"/>
+    <rect x="282" y="176" width="196" height="8" rx="4" fill="#7b7974"/>
+  </g>
+  <g>
+    <circle cx="142" cy="224" r="13" fill="#121212"/>
+    <path d="M136 224L140 228L149 219" stroke="#f8f8f6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="172" y="216" width="84" height="8" rx="4" fill="#373734"/>
+    <rect x="282" y="216" width="144" height="8" rx="4" fill="#7b7974"/>
+  </g>
+  <g>
+    <circle cx="142" cy="264" r="13" fill="#d97757"/>
+    <path d="M142 257V265" stroke="#ffffff" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="142" cy="271" r="1.7" fill="#ffffff"/>
+    <rect x="172" y="256" width="68" height="8" rx="4" fill="#373734"/>
+    <rect x="282" y="256" width="220" height="8" rx="4" fill="#7b7974"/>
+    <rect x="516" y="249" width="68" height="22" rx="11" fill="#efeeeb"/>
+  </g>
+  <rect x="128" y="298" width="458" height="1" fill="#e7e6e1"/>
+  <rect x="128" y="316" width="130" height="10" rx="5" fill="#efeeeb"/>
+  <rect x="274" y="316" width="106" height="10" rx="5" fill="#efeeeb"/>
+  <rect x="396" y="316" width="154" height="10" rx="5" fill="#efeeeb"/>
+  <path d="M566 106C596 122 612 148 614 184" stroke="#d97757" stroke-width="3" stroke-linecap="round"/>
+  <path d="M606 178L614 185L620 174" stroke="#d97757" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" role="img" aria-labelledby="title desc">
+  <title id="title">MLA versus APA illustration</title>
+  <desc id="desc">Two citation cards compare MLA and APA fields.</desc>
+  <rect width="1200" height="750" fill="#efeeeb"/>
+  <rect x="82" y="72" width="1036" height="606" rx="18" fill="#fff" stroke="#e7e6e1" stroke-width="3"/>
+  <g transform="translate(168 178)">
+    <rect x="0" y="0" width="372" height="400" rx="12" fill="#f8f8f6" stroke="#121212" stroke-width="5"/>
+    <text x="44" y="72" fill="#121212" font-family="Georgia, serif" font-size="54">MLA</text>
+    <path d="M44 132h252M44 186h290M44 240h204M44 294h260" stroke="#121212" stroke-width="6" stroke-linecap="round"/>
+    <rect x="44" y="328" width="178" height="42" rx="8" fill="#efeeeb" stroke="#121212" stroke-width="4"/>
+    <text x="64" y="357" fill="#121212" font-family="ui-sans-serif, system-ui, sans-serif" font-size="22">author-page</text>
+  </g>
+  <g transform="translate(660 178)">
+    <rect x="0" y="0" width="372" height="400" rx="12" fill="#f8f8f6" stroke="#121212" stroke-width="5"/>
+    <text x="44" y="72" fill="#121212" font-family="Georgia, serif" font-size="54">APA</text>
+    <path d="M44 132h252M44 186h290M44 240h204M44 294h260" stroke="#121212" stroke-width="6" stroke-linecap="round"/>
+    <rect x="44" y="328" width="178" height="42" rx="8" fill="#efeeeb" stroke="#121212" stroke-width="4"/>
+    <text x="64" y="357" fill="#121212" font-family="ui-sans-serif, system-ui, sans-serif" font-size="22">author-date</text>
+  </g>
+  <path d="M576 258l-40 40 40 40M624 258l40 40-40 40" fill="none" stroke="#d97757" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M206 612c82 25 176 25 282 0M712 612c82 25 176 25 282 0" fill="none" stroke="#d97757" stroke-width="6" stroke-linecap="round"/>
+</svg>

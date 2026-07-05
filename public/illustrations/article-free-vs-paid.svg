@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 450" fill="none">
+  <rect width="720" height="450" fill="#efeeeb" rx="24"/>
+  <rect x="100" y="140" width="200" height="220" rx="16" fill="#ffffff" stroke="#e7e6e1"/>
+  <rect x="420" y="140" width="200" height="220" rx="16" fill="#ffffff" stroke="#e7e6e1"/>
+  <text x="200" y="200" text-anchor="middle" font-family="Georgia,serif" font-size="28" fill="#121212">Free</text>
+  <text x="520" y="200" text-anchor="middle" font-family="Georgia,serif" font-size="28" fill="#121212">Paid</text>
+  <text x="200" y="250" text-anchor="middle" font-size="14" fill="#373734">Same CrossRef data</text>
+  <text x="520" y="250" text-anchor="middle" font-size="14" fill="#373734">Same CrossRef data</text>
+  <text x="200" y="280" text-anchor="middle" font-size="14" fill="#373734">Same Google Books</text>
+  <text x="520" y="280" text-anchor="middle" font-size="14" fill="#373734">Same Google Books</text>
+  <text x="200" y="310" text-anchor="middle" font-size="14" fill="#373734">Same citeproc-js</text>
+  <text x="520" y="310" text-anchor="middle" font-size="14" fill="#373734">+ Editing features</text>
+  <text x="200" y="340" text-anchor="middle" font-size="14" fill="#d97757" font-weight="bold">$0/month</text>
+  <text x="520" y="340" text-anchor="middle" font-size="14" fill="#d97757" font-weight="bold">$9.95/month</text>
+  <line x1="360" y1="200" x2="380" y2="200" stroke="#e7e6e1" stroke-width="2"/>
+  <line x1="360" y1="340" x2="380" y2="340" stroke="#e7e6e1" stroke-width="2"/>
+</svg>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 450" fill="none">
+  <rect width="720" height="450" fill="#efeeeb" rx="24"/>
+  <rect x="60" y="120" width="270" height="240" rx="16" fill="#ffffff" stroke="#e7e6e1"/>
+  <rect x="390" y="120" width="270" height="240" rx="16" fill="#ffffff" stroke="#e7e6e1"/>
+  <text x="195" y="170" text-anchor="middle" font-family="Georgia,serif" font-size="36" fill="#121212" font-weight="bold">APA</text>
+  <text x="525" y="170" text-anchor="middle" font-family="Georgia,serif" font-size="36" fill="#121212" font-weight="bold">MLA</text>
+  <text x="195" y="220" text-anchor="middle" font-size="15" fill="#373734">(Author, Year)</text>
+  <text x="525" y="220" text-anchor="middle" font-size="15" fill="#373734">(Author Page)</text>
+  <text x="195" y="270" text-anchor="middle" font-size="14" fill="#7b7974">Psychology, Education</text>
+  <text x="525" y="270" text-anchor="middle" font-size="14" fill="#7b7974">English, Literature</text>
+  <text x="195" y="300" text-anchor="middle" font-size="14" fill="#7b7974">Nursing, Social Science</text>
+  <text x="525" y="300" text-anchor="middle" font-size="14" fill="#7b7974">Languages, Humanities</text>
+  <rect x="280" y="230" width="50" height="3" rx="1.5" fill="#e7e6e1"/>
+  <rect x="390" y="230" width="50" height="3" rx="1.5" fill="#e7e6e1"/>
+</svg>
