@@ -25,22 +25,22 @@ const article: CitationMetadata = {
 };
 
 describe("citation rendering", () => {
-  it("renders the same metadata across all 10 formats", () => {
+  it("renders the same metadata across all 10 formats", async () => {
     for (const slug of generatorSlugs) {
-      const result = renderCitation(article, slug);
+      const result = await renderCitation(article, slug);
       expect(result.fullCitation.length).toBeGreaterThan(20);
       expect(result.metadata.title).toBe(article.title);
     }
   });
 
-  it("uses local NLM data or ACS patch for ACS abbreviations", () => {
-    const result = lookupJournalAbbreviation("Journal of the American Chemical Society", "acs");
+  it("uses local NLM data or ACS patch for ACS abbreviations", async () => {
+    const result = await lookupJournalAbbreviation("Journal of the American Chemical Society", "acs");
     expect(result?.abbreviation).toContain("J.");
     expect(result?.label).toMatch(/Abbreviation from/);
   });
 
-  it("keeps manual metadata in the same rendering path", () => {
-    const result = renderCitation(
+  it("keeps manual metadata in the same rendering path", async () => {
+    const result = await renderCitation(
       {
         ...article,
         id: "manual-example",
@@ -52,8 +52,8 @@ describe("citation rendering", () => {
     expect(result.fullCitation).toContain("Shokri");
   });
 
-  it("decodes HTML entities in rendered citations", () => {
-    const result = renderCitation(article, "apa");
+  it("decodes HTML entities in rendered citations", async () => {
+    const result = await renderCitation(article, "apa");
     expect(result.fullCitation).toContain("Shokri, A., & Que, L.");
     expect(result.fullCitation).not.toContain("&#38;");
   });

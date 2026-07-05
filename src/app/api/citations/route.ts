@@ -32,7 +32,9 @@ export async function POST(request: Request) {
       sourceType: body.sourceType,
       metadata: body.metadata
     });
-    const rendered = renderCitation(metadata, body.style, body.cslFile);
+    const rendered = await renderCitation(metadata, body.style, body.cslFile, {
+      assetOrigin: request.url
+    });
     const sourceLabels = [
       rendered.metadata.sourceLabel,
       rendered.metadata.abbreviationLabel

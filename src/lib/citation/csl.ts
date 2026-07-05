@@ -45,17 +45,23 @@ export type RenderedCitation = {
   metadata: CitationMetadata;
 };
 
+type RenderCitationOptions = {
+  assetOrigin?: string;
+};
+
 const styleCache = new Map<string, string>();
 let localeCache: string | undefined;
 
-export function renderCitation(
+export async function renderCitation(
   metadata: CitationMetadata,
   styleSlug: string,
-  cslFileOverride?: string
-): RenderedCitation {
-  const metadataWithAbbreviation = applyJournalAbbreviation(
+  cslFileOverride?: string,
+  options: RenderCitationOptions = {}
+): Promise<RenderedCitation> {
+  const metadataWithAbbreviation = await applyJournalAbbreviation(
     metadata,
-    isGeneratorSlug(styleSlug) ? styleSlug : "apa"
+    isGeneratorSlug(styleSlug) ? styleSlug : "apa",
+    options.assetOrigin
   );
   const item = toCslItem(metadataWithAbbreviation);
   const cslFilename = cslFileOverride ?? (
@@ -96,10 +102,14 @@ export function renderCitation(
   };
 }
 
-function applyJournalAbbreviation(metadata: CitationMetadata, styleSlug: GeneratorSlug): CitationMetadata {
+async function applyJournalAbbreviation(
+  metadata: CitationMetadata,
+  styleSlug: GeneratorSlug,
+  assetOrigin?: string
+): Promise<CitationMetadata> {
   if (metadata.sourceType !== "journal" || !metadata.containerTitle) return metadata;
 
-  const lookup = lookupJournalAbbreviation(metadata.containerTitle, styleSlug);
+  const lookup = await lookupJournalAbbreviation(metadata.containerTitle, styleSlug, assetOrigin);
   if (!lookup) return metadata;
 
   return {

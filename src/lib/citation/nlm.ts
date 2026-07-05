@@ -1,4 +1,3 @@
-import nlmData from "./nlm-data.json";
 import { acsAbbreviationPatches } from "./nlm-patches";
 import type { DataProvider } from "@/lib/metadata/types";
 
@@ -20,17 +19,21 @@ type NlmData = {
   map: Record<string, number>;
 };
 
+const nlmAssetPath = "/citation-data/nlm-data.json";
+let cachedNlmData: NlmData | undefined;
+let pendingNlmData: Promise<NlmData | undefined> | undefined;
 let normalizedAcsPatches: Map<string, string> | undefined;
 
-export function lookupJournalAbbreviation(
+export async function lookupJournalAbbreviation(
   journalTitle: string | undefined,
-  styleSlug: string
-): AbbreviationLookup | undefined {
+  styleSlug: string,
+  assetOrigin?: string
+): Promise<AbbreviationLookup | undefined> {
   if (!journalTitle) return undefined;
   const normalizedTitle = normalizeJournalName(journalTitle);
   if (!normalizedTitle) return undefined;
 
-  const nlmRow = lookupNlmRow(normalizedTitle);
+  const nlmRow = await lookupNlmRow(normalizedTitle, assetOrigin);
   if (nlmRow) {
     const baseAbbreviation = nlmRow.iso_abbr || nlmRow.med_abbr;
     if (baseAbbreviation) {
@@ -89,8 +92,13 @@ export function normalizeJournalName(value: string) {
     .trim();
 }
 
-function lookupNlmRow(normalizedTitle: string): NlmRow | undefined {
-  const data = nlmData as unknown as NlmData;
+async function lookupNlmRow(
+  normalizedTitle: string,
+  assetOrigin?: string
+): Promise<NlmRow | undefined> {
+  const data = await loadNlmData(assetOrigin);
+  if (!data) return undefined;
+
   const rowIndex = data.map[normalizedTitle];
   if (rowIndex === undefined) return undefined;
 
@@ -102,6 +110,70 @@ function lookupNlmRow(normalizedTitle: string): NlmRow | undefined {
     med_abbr: row[1] || null,
     iso_abbr: row[2] || null
   };
+}
+
+async function loadNlmData(assetOrigin?: string): Promise<NlmData | undefined> {
+  if (cachedNlmData) return cachedNlmData;
+
+  pendingNlmData ??= readNlmAsset(assetOrigin).then((data) => {
+    cachedNlmData = data;
+    return data;
+  });
+
+  return pendingNlmData;
+}
+
+async function readNlmAsset(assetOrigin?: string): Promise<NlmData | undefined> {
+  const fromCloudflareAssets = await readFromCloudflareAssets();
+  if (fromCloudflareAssets) return fromCloudflareAssets;
+
+  const fromRequestOrigin = await readFromRequestOrigin(assetOrigin);
+  if (fromRequestOrigin) return fromRequestOrigin;
+
+  return readFromLocalPublicFile();
+}
+
+async function readFromCloudflareAssets(): Promise<NlmData | undefined> {
+  try {
+    const { getCloudflareContext } = await import("@opennextjs/cloudflare");
+    const cloudflareContext = await getCloudflareContext({ async: true });
+    const assets = cloudflareContext.env.ASSETS;
+    if (!assets) return undefined;
+
+    const response = await assets.fetch(`https://citationgen.top${nlmAssetPath}`);
+    return parseNlmResponse(response);
+  } catch {
+    return undefined;
+  }
+}
+
+async function readFromRequestOrigin(assetOrigin?: string): Promise<NlmData | undefined> {
+  if (!assetOrigin) return undefined;
+
+  try {
+    const response = await fetch(new URL(nlmAssetPath, assetOrigin));
+    return parseNlmResponse(response);
+  } catch {
+    return undefined;
+  }
+}
+
+async function readFromLocalPublicFile(): Promise<NlmData | undefined> {
+  try {
+    const [{ readFile }, path] = await Promise.all([
+      import("node:fs/promises"),
+      import("node:path")
+    ]);
+    const raw = await readFile(path.join(process.cwd(), "public", "citation-data", "nlm-data.json"), "utf8");
+    return JSON.parse(raw) as NlmData;
+  } catch {
+    return undefined;
+  }
+}
+
+async function parseNlmResponse(response: Response): Promise<NlmData | undefined> {
+  if (!response.ok) return undefined;
+  return (await response.json()) as NlmData;
 }
 
 function addAcsPeriods(value: string) {
