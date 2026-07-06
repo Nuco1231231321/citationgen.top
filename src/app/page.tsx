@@ -107,6 +107,36 @@ const featureSections = [
 
 const quickStyleSlugs = ["apa", "mla", "chicago", "ama", "acs", "ieee"] as const;
 const providerLabels = ["CrossRef", "Google Books", "URL metadata", "NLM", "Manual entry"];
+const workflowRoutes = [
+  {
+    title: "Lab reports and chemistry writing",
+    body:
+      "Start with a DOI or article title when the source came from a journal database. These workflows usually depend on clean journal metadata and visible abbreviation checks.",
+    formats: ["acs", "ama", "cse"] as const,
+    note: "Best fit for chemistry, life science, and lab-heavy coursework."
+  },
+  {
+    title: "Essays, reading lists, and humanities papers",
+    body:
+      "If the assignment centers on books, chapters, archives, or literary criticism, open a style that keeps authorship and publication context easy to review before you copy.",
+    formats: ["mla", "chicago", "turabian"] as const,
+    note: "Useful for literature, history, theology, and writing seminars."
+  },
+  {
+    title: "Research papers with websites and policy sources",
+    body:
+      "Use a style that handles mixed source types well when you are citing articles, websites, reports, and organization pages in the same paper.",
+    formats: ["apa", "harvard", "vancouver"] as const,
+    note: "A good path for social science, education, health, and policy writing."
+  },
+  {
+    title: "Engineering, computing, and technical projects",
+    body:
+      "Numeric styles work well when your references come from journals, conferences, standards, manuals, and product documentation.",
+    formats: ["ieee", "cse", "ama"] as const,
+    note: "Common in engineering, computing, applied science, and capstone work."
+  }
+];
 
 export default function HomePage() {
   const primaryFeature = featureSections[0];
@@ -185,7 +215,6 @@ export default function HomePage() {
 
       <section className="site-shell home-style-atlas" aria-labelledby="home-style-atlas-heading">
         <div className="home-style-atlas-copy">
-          <p className="home-kicker">Popular styles</p>
           <h2 id="home-style-atlas-heading" className="font-editorial text-balance text-[28px] leading-[1.14] text-ink md:text-[38px]">
             Start in the style you need most, then switch without losing the workflow.
           </h2>
@@ -209,7 +238,6 @@ export default function HomePage() {
 
       <section className="site-shell home-workflow-stage py-12" aria-labelledby="home-feature-heading">
         <div className="home-section-heading">
-          <p className="home-kicker">Source checks</p>
           <h2 id="home-feature-heading" className="font-editorial text-balance text-[30px] leading-[1.16] text-ink md:text-[46px]">
             Keep the lookup fast, but make the review step feel deliberate.
           </h2>
@@ -232,7 +260,6 @@ export default function HomePage() {
             <div className="home-feature-icon" aria-hidden="true">
               <PrimaryFeatureIcon size={20} />
             </div>
-            <p className="home-kicker">{primaryFeature.eyebrow}</p>
             <h3 className="font-editorial text-balance text-[28px] leading-[1.14] text-ink md:text-[40px]">
               {primaryFeature.title}
             </h3>
@@ -268,7 +295,6 @@ export default function HomePage() {
                   <div className="home-feature-icon" aria-hidden="true">
                     <Icon size={18} />
                   </div>
-                  <p className="home-kicker">{section.eyebrow}</p>
                   <h3 className="font-editorial text-balance text-[24px] leading-[1.14] text-ink md:text-[30px]">
                     {section.title}
                   </h3>
@@ -280,36 +306,72 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="site-shell home-style-panel py-12" aria-labelledby="home-style-heading">
-        <div>
-          <p className="home-kicker">Citation formats</p>
-          <h2 id="home-style-heading" className="font-editorial text-balance text-[30px] leading-[1.16] text-ink md:text-[42px]">
-            Open the exact style your paper requires.
-          </h2>
-          <p className="mt-3 max-w-[58ch] text-pretty text-sm leading-6 text-dim">
-            Choose APA, MLA, Chicago, AMA, ACS, IEEE, and other common academic formats for
-            papers, lab reports, journal articles, and coursework.
+      <section className="site-shell home-route-map py-12" aria-labelledby="home-route-map-heading">
+        <div className="home-route-map-head">
+          <div>
+            <p className="home-kicker">Choose by assignment</p>
+            <h2 id="home-route-map-heading" className="font-editorial text-balance text-[30px] leading-[1.16] text-ink md:text-[42px]">
+              If the assignment does not name a style, start from the writing context.
+            </h2>
+          </div>
+          <p className="home-route-map-summary">
+            Some users already know they need APA or IEEE. Others only know they are writing a
+            lab report, a policy paper, or a book-heavy essay. This section gives both paths.
           </p>
         </div>
-        <div className="home-style-grid">
-          {allGeneratorFormats.map((format) => (
-            <Link key={format.slug} href={generatorPath(format.slug)} className="format-link group">
-              <span className="format-code">{format.label}</span>
-              <span className="format-copy">
-                <span className="block text-sm font-medium text-ink">
-                  {format.label} Citation Generator
-                </span>
-                <span className="block text-xs text-faint mt-0.5">
-                  {format.fullName} · {format.edition}
-                </span>
-              </span>
-              <ArrowRight
-                aria-hidden="true"
-                size={18}
-                className="text-faint group-hover:text-ink transition-colors"
-              />
-            </Link>
-          ))}
+
+        <div className="home-route-map-frame">
+          <div className="home-route-map-visual">
+            <Image
+              src="/images/home/citation-disciplines.jpg"
+              alt="Research books, notes, and citation examples organized for different academic writing contexts."
+              fill
+              sizes="(max-width: 960px) 100vw, 38vw"
+              className="home-route-map-photo"
+            />
+            <div className="home-route-map-scrim" aria-hidden="true" />
+            <div className="home-route-map-overlay">
+              <strong>Start where your assignment starts.</strong>
+              <p>Journal article, lab source, website, or book chapter. Keep the review step visible either way.</p>
+            </div>
+          </div>
+
+          <div className="home-route-map-grid">
+            {workflowRoutes.map((route, index) => (
+              <article key={route.title} className="home-route-card">
+                <span className="home-route-card-index">{String(index + 1).padStart(2, "0")}</span>
+                <h3>{route.title}</h3>
+                <p>{route.body}</p>
+                <div className="home-route-card-links" aria-label={`${route.title} citation styles`}>
+                  {route.formats.map((slug) => {
+                    const format = generatorFormats[slug];
+                    return (
+                      <Link key={slug} href={generatorPath(slug)}>
+                        <span>{format.label}</span>
+                        <ArrowRight aria-hidden="true" size={14} />
+                      </Link>
+                    );
+                  })}
+                </div>
+                <small>{route.note}</small>
+              </article>
+            ))}
+          </div>
+        </div>
+
+        <div className="home-format-directory" aria-labelledby="home-format-directory-heading">
+          <div className="home-format-directory-copy">
+            <h3 id="home-format-directory-heading">Need a different citation style?</h3>
+            <p>Browse the full generator directory without leaving the homepage.</p>
+          </div>
+          <div className="home-format-directory-grid">
+            {allGeneratorFormats.map((format) => (
+              <Link key={format.slug} href={generatorPath(format.slug)}>
+                <span>{format.label}</span>
+                <small>{format.fullName}</small>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 

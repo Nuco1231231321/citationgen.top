@@ -1,27 +1,56 @@
-"use client";
+const readerChecks = [
+  {
+    title: "Missing author or organization",
+    body:
+      "If a page does not expose a clear author line, you should see that gap before you copy the citation."
+  },
+  {
+    title: "Thin website metadata",
+    body:
+      "Web sources often need a manual date, site name, or title cleanup. The result should help you spot that immediately."
+  },
+  {
+    title: "Journal details that need a second look",
+    body:
+      "Volume, issue, pages, DOI, and abbreviated journal titles matter most when the citation is headed into a paper or report."
+  }
+];
 
-import { useEffect, useRef, useState } from "react";
-
-const testimonials = [
+const readerNotes = [
   {
     role: "Undergraduate writer",
     quote:
-      "I need the citation fast, but I also need to see if the author or date is missing before I paste it into the paper."
+      "I need the citation quickly, but I still want to see whether the page is missing an author or date before I paste it."
   },
   {
     role: "Chemistry lab author",
     quote:
-      "ACS citations are picky. The useful part is seeing the DOI record and checking journal details before copying."
+      "The useful part is checking the DOI record and the journal details while the source is still in front of me."
   },
   {
     role: "Medical course researcher",
     quote:
-      "For AMA and Vancouver, I care less about decoration and more about whether the source data is visible and editable."
+      "For AMA or Vancouver, the difference is usually in the source details, not in how dramatic the interface looks."
   },
   {
     role: "Graduate student",
     quote:
-      "When a website has weak metadata, I want the generator to tell me what is missing instead of pretending it knows."
+      "When a website has weak metadata, I want the tool to surface the gap instead of pretending the citation is complete."
+  }
+];
+
+const faqFacts = [
+  {
+    title: "Paste first",
+    body: "DOI, ISBN, URL, title, or manual source fields all work."
+  },
+  {
+    title: "No invented data",
+    body: "Missing author, date, page, DOI, ISBN, and URL details stay visible as warnings."
+  },
+  {
+    title: "Edit before copy",
+    body: "You can correct fields and regenerate the citation before it leaves the page."
   }
 ];
 
@@ -54,129 +83,60 @@ const faqs = [
 ];
 
 export function HomeTrustExperience() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
-  const [reduceMotion, setReduceMotion] = useState(false);
-  const carouselRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const updateMotionPreference = () => setReduceMotion(motionQuery.matches);
-
-    updateMotionPreference();
-    motionQuery.addEventListener("change", updateMotionPreference);
-    return () => motionQuery.removeEventListener("change", updateMotionPreference);
-  }, []);
-
-  useEffect(() => {
-    const carousel = carouselRef.current;
-    if (!carousel || typeof IntersectionObserver === "undefined") return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => setIsVisible(entry.isIntersecting),
-      { threshold: 0.35 }
-    );
-
-    observer.observe(carousel);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (paused || reduceMotion || !isVisible) return;
-
-    const timer = window.setInterval(() => {
-      setActiveIndex((index) => (index + 1) % testimonials.length);
-    }, 4400);
-
-    return () => window.clearInterval(timer);
-  }, [isVisible, paused, reduceMotion]);
-
-  function showPrevious() {
-    setActiveIndex((index) => (index - 1 + testimonials.length) % testimonials.length);
-  }
-
-  function showNext() {
-    setActiveIndex((index) => (index + 1) % testimonials.length);
-  }
-
   return (
     <>
-      <section className="site-shell home-testimonials py-12" aria-labelledby="home-testimonials-heading">
-        <div className="home-section-heading">
-          <p className="home-kicker">Writing workflows</p>
-          <h2 id="home-testimonials-heading" className="font-editorial text-balance text-[30px] leading-[1.16] text-ink md:text-[42px]">
-            Built for the moment before you submit.
-          </h2>
-          <p className="mt-3 max-w-[62ch] text-pretty text-sm leading-6 text-dim">
-            Create citations for papers, lab reports, literature reviews, and reference lists
-            without losing sight of source quality.
-          </p>
-        </div>
+      <section className="site-shell home-reader-notes py-12" aria-labelledby="home-reader-notes-heading">
+        <div className="home-reader-notes-layout">
+          <div className="home-reader-notes-copy">
+            <h2 id="home-reader-notes-heading" className="font-editorial text-balance text-[30px] leading-[1.16] text-ink md:text-[42px]">
+              Most citation mistakes happen before the final punctuation.
+            </h2>
+            <p>
+              The important moment is usually the review step: the part where you decide whether
+              the source record is complete enough to use as-is, or whether it still needs manual
+              fixes.
+            </p>
 
-        <div
-          ref={carouselRef}
-          className="testimonial-carousel"
-          aria-roledescription="carousel"
-          aria-label="CitationGen user workflow comments"
-          onMouseEnter={() => setPaused(true)}
-          onMouseLeave={() => setPaused(false)}
-          onFocusCapture={() => setPaused(true)}
-          onBlurCapture={(event) => {
-            if (!event.currentTarget.contains(event.relatedTarget)) setPaused(false);
-          }}
-        >
-          <div className="testimonial-window">
-            <div
-              className="testimonial-track"
-              style={{ transform: `translateX(-${activeIndex * 100}%)` }}
-            >
-              {testimonials.map((testimonial, index) => (
-                <article
-                  key={testimonial.role}
-                  className="testimonial-card"
-                  aria-hidden={activeIndex !== index}
-                >
-                  <p className="testimonial-quote">“{testimonial.quote}”</p>
-                  <p className="testimonial-role">{testimonial.role}</p>
-                </article>
+            <ul className="home-reader-checklist">
+              {readerChecks.map((item) => (
+                <li key={item.title}>
+                  <strong>{item.title}</strong>
+                  <span>{item.body}</span>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
 
-          <div className="testimonial-controls">
-            <button type="button" onClick={showPrevious} aria-label="Show previous comment">
-              Previous
-            </button>
-            <div className="testimonial-dots" aria-label="Select comment">
-              {testimonials.map((testimonial, index) => (
-                <button
-                  key={testimonial.role}
-                  type="button"
-                  onClick={() => setActiveIndex(index)}
-                  aria-label={`Show comment ${index + 1}`}
-                  aria-current={activeIndex === index}
-                />
-              ))}
-            </div>
-            <button type="button" onClick={showNext} aria-label="Show next comment">
-              Next
-            </button>
+          <div className="home-reader-notes-grid" aria-label="Citation workflow reader notes">
+            {readerNotes.map((note) => (
+              <article key={note.role} className="home-reader-note">
+                <p className="home-reader-note-quote">“{note.quote}”</p>
+                <p className="home-reader-note-role">{note.role}</p>
+              </article>
+            ))}
           </div>
         </div>
       </section>
 
       <section className="site-shell home-faq-block py-12" aria-labelledby="home-faq-heading">
-        <div className="faq-section">
+        <div className="faq-section faq-section--editorial">
           <div className="faq-intro">
-            <p className="home-kicker">FAQ</p>
             <h2 id="home-faq-heading" className="font-editorial text-balance text-[30px] leading-[1.16] text-ink md:text-[42px]">
-              Questions before you copy a citation.
+              Questions that matter when the source record is incomplete.
             </h2>
             <p className="mt-3 text-pretty text-sm leading-6 text-dim">
-              Check what you can paste, how missing fields are handled, and which citation
-              styles are available.
+              These are the practical checks users make when a DOI is missing fields, a website
+              has thin metadata, or a citation needs one last edit before it is copied.
             </p>
+
+            <div className="faq-fact-list">
+              {faqFacts.map((fact) => (
+                <article key={fact.title}>
+                  <strong>{fact.title}</strong>
+                  <p>{fact.body}</p>
+                </article>
+              ))}
+            </div>
           </div>
 
           <div className="faq-accordion">
