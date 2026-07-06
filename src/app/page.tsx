@@ -56,15 +56,15 @@ const homeExamples: CitationExample[] = [
 
 const heroChecks = [
   {
-    title: "Source labels",
+    title: "Visible source trail",
     body: "See whether a result came from CrossRef, Google Books, URL metadata, NLM, or manual entry."
   },
   {
-    title: "Missing-field warnings",
+    title: "Field warnings stay near the result",
     body: "Review missing author, date, page, DOI, ISBN, and URL details before you copy."
   },
   {
-    title: "Editable metadata",
+    title: "Edit before you submit",
     body: "Correct source details, regenerate the citation, then copy it or save it to your library."
   }
 ];
@@ -106,8 +106,13 @@ const featureSections = [
 ];
 
 const quickStyleSlugs = ["apa", "mla", "chicago", "ama", "acs", "ieee"] as const;
+const providerLabels = ["CrossRef", "Google Books", "URL metadata", "NLM", "Manual entry"];
 
 export default function HomePage() {
+  const primaryFeature = featureSections[0];
+  const secondaryFeatures = featureSections.slice(1);
+  const PrimaryFeatureIcon = primaryFeature.icon;
+
   return (
     <main className="citationgen-page">
       <JsonLd data={homeJsonLd()} />
@@ -132,83 +137,142 @@ export default function HomePage() {
           introText="Choose a style, paste a source, and generate a citation without leaving this page."
         />
 
-        <div className="site-shell home-review-row" aria-label="CitationGen trust checks">
-          <div className="review-summary-card">
-            <strong>Source checks</strong>
-            <StarBoxes />
-            <span>Check source labels, warnings, and editable fields before you copy.</span>
+        <section className="site-shell home-evidence-band" aria-labelledby="home-evidence-heading">
+          <div className="home-evidence-copy">
+            <p className="home-kicker">Why it feels safer</p>
+            <h2 id="home-evidence-heading" className="font-editorial text-balance text-[30px] leading-[1.12] text-ink md:text-[44px]">
+              Check the source trail before the citation leaves your screen.
+            </h2>
+            <p className="home-evidence-body">
+              CitationGen is built for students, lab writers, and researchers who need the result
+              fast, but still want to verify what is missing before they paste it into an
+              assignment.
+            </p>
+            <div className="home-evidence-caption">
+              <span>Built for papers, lab reports, literature reviews, and journal drafts.</span>
+            </div>
           </div>
-          {heroChecks.map((check) => (
-            <article key={check.title} className="review-proof-card">
-              <StarBoxes compact />
-              <strong>{check.title}</strong>
-              <p>{check.body}</p>
+
+          <div className="home-evidence-grid">
+            <article className="home-evidence-card home-evidence-card--wide">
+              <div className="home-evidence-card-head">
+                <Database aria-hidden="true" size={18} />
+                <strong>Visible data sources</strong>
+              </div>
+              <p>
+                Results stay legible because the source label is part of the workflow, not hidden
+                in a tooltip or system log.
+              </p>
+              <div className="home-provider-row" aria-label="Metadata providers">
+                {providerLabels.map((label) => (
+                  <span key={label}>{label}</span>
+                ))}
+              </div>
             </article>
-          ))}
+
+            {heroChecks.map((check) => (
+              <article key={check.title} className="home-evidence-card">
+                <div className="home-evidence-card-head">
+                  <CheckCircle aria-hidden="true" size={18} />
+                  <strong>{check.title}</strong>
+                </div>
+                <p>{check.body}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+      </section>
+
+      <section className="site-shell home-style-atlas" aria-labelledby="home-style-atlas-heading">
+        <div className="home-style-atlas-copy">
+          <p className="home-kicker">Popular styles</p>
+          <h2 id="home-style-atlas-heading" className="font-editorial text-balance text-[28px] leading-[1.14] text-ink md:text-[38px]">
+            Start in the style you need most, then switch without losing the workflow.
+          </h2>
+          <p>
+            Open the exact citation format your paper requires and keep the same lookup habit
+            across APA, MLA, Chicago, AMA, ACS, and IEEE.
+          </p>
+        </div>
+        <div className="home-style-atlas-rail" aria-label="Popular citation format shortcuts">
+          {quickStyleSlugs.map((slug) => {
+            const format = generatorFormats[slug];
+            return (
+              <Link key={slug} href={generatorPath(slug)}>
+                <span>{format.label}</span>
+                <small>{format.edition}</small>
+              </Link>
+            );
+          })}
         </div>
       </section>
 
-      <div className="site-shell quick-format-strip citation-style-strip" aria-label="Popular citation format shortcuts">
-          <span>Popular styles</span>
-          <div>
-            {quickStyleSlugs.map((slug) => {
-              const format = generatorFormats[slug];
-              return (
-                <Link key={slug} href={generatorPath(slug)}>
-                  {format.label}
-                </Link>
-              );
-            })}
-          </div>
-      </div>
-
-      <section className="site-shell home-feature-stack py-12" aria-labelledby="home-feature-heading">
+      <section className="site-shell home-workflow-stage py-12" aria-labelledby="home-feature-heading">
         <div className="home-section-heading">
           <p className="home-kicker">Source checks</p>
           <h2 id="home-feature-heading" className="font-editorial text-balance text-[30px] leading-[1.16] text-ink md:text-[46px]">
-            See the citation data before you copy.
+            Keep the lookup fast, but make the review step feel deliberate.
           </h2>
           <p className="mt-3 max-w-[66ch] text-pretty text-sm leading-6 text-dim">
-            Generate references quickly, then inspect the metadata source, missing-field warnings,
-            and editable details in the same workflow.
+            The page should help users move from raw source details to a checked citation without
+            jumping between tools, tabs, or opaque results.
           </p>
         </div>
 
-        <div className="home-feature-list">
-          {featureSections.map((section) => {
+        <div className="home-workflow-hero">
+          <FeatureVisual
+            title={primaryFeature.title}
+            bullets={primaryFeature.bullets}
+            icon={primaryFeature.icon}
+            image={primaryFeature.image}
+            alt={primaryFeature.alt}
+          />
+
+          <div className="home-workflow-copy">
+            <div className="home-feature-icon" aria-hidden="true">
+              <PrimaryFeatureIcon size={20} />
+            </div>
+            <p className="home-kicker">{primaryFeature.eyebrow}</p>
+            <h3 className="font-editorial text-balance text-[28px] leading-[1.14] text-ink md:text-[40px]">
+              {primaryFeature.title}
+            </h3>
+            <p className="mt-4 text-pretty text-sm leading-7 text-dim">
+              {primaryFeature.body}
+            </p>
+            <ul className="home-feature-bullets">
+              {primaryFeature.bullets.map((bullet) => (
+                <li key={bullet}>
+                  <CheckCircle aria-hidden="true" size={17} />
+                  <span>{bullet}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="home-workflow-grid">
+          {secondaryFeatures.map((section) => {
             const Icon = section.icon;
             return (
-              <article
-                key={section.title}
-                className={`home-feature-row ${section.reverse ? "is-reverse" : ""}`}
-              >
+              <article key={section.title} className="home-workflow-card">
                 <FeatureVisual
                   title={section.title}
                   bullets={section.bullets}
                   icon={Icon}
                   image={section.image}
                   alt={section.alt}
+                  compact
                 />
 
-                <div className="home-feature-copy">
+                <div className="home-workflow-card-copy">
                   <div className="home-feature-icon" aria-hidden="true">
-                    <Icon size={20} />
+                    <Icon size={18} />
                   </div>
                   <p className="home-kicker">{section.eyebrow}</p>
-                  <h3 className="font-editorial text-balance text-[28px] leading-[1.14] text-ink md:text-[38px]">
+                  <h3 className="font-editorial text-balance text-[24px] leading-[1.14] text-ink md:text-[30px]">
                     {section.title}
                   </h3>
-                  <p className="mt-4 text-pretty text-sm leading-7 text-dim">
-                    {section.body}
-                  </p>
-                  <ul className="home-feature-bullets">
-                    {section.bullets.map((bullet) => (
-                      <li key={bullet}>
-                        <CheckCircle aria-hidden="true" size={17} />
-                        <span>{bullet}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  <p>{section.body}</p>
                 </div>
               </article>
             );
@@ -254,33 +318,23 @@ export default function HomePage() {
   );
 }
 
-function StarBoxes({ compact = false }: { compact?: boolean }) {
-  return (
-    <span className={compact ? "review-stars is-compact" : "review-stars"} aria-label="Five check marks">
-      {Array.from({ length: 5 }).map((_, index) => (
-        <span key={index} aria-hidden="true">
-          ★
-        </span>
-      ))}
-    </span>
-  );
-}
-
 function FeatureVisual({
   title,
   bullets,
   icon: Icon,
   image,
-  alt
+  alt,
+  compact = false
 }: {
   title: string;
   bullets: string[];
   icon: typeof MagnifyingGlass;
   image: string;
   alt: string;
+  compact?: boolean;
 }) {
   return (
-    <div className="home-feature-media home-feature-visual">
+    <div className={`home-feature-media home-feature-visual ${compact ? "is-compact" : ""}`}>
       <Image src={image} alt={alt} fill sizes="(max-width: 1100px) 100vw, 46vw" className="home-feature-photo" />
       <div className="home-feature-visual-scrim" aria-hidden="true" />
       <div className="home-feature-glass">
