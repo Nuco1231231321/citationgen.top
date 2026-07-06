@@ -18,16 +18,16 @@ import type { GeneratorFormat, GeneratorSlug } from "@/lib/formats";
 import { absoluteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Citation Generators: APA, MLA, Chicago & More",
+  title: "Free Citation Generators by Style",
   description:
-    "Choose the right APA, MLA, Chicago, ACS, AMA, IEEE, Vancouver, CSE, Turabian, or Harvard citation generator with source labels, missing-field warnings, and editable fields.",
+    "Find the APA, MLA, Chicago, ACS, AMA, IEEE, Vancouver, CSE, Turabian, or Harvard citation generator your paper needs.",
   alternates: {
     canonical: absoluteUrl("/tools/")
   },
   openGraph: {
-    title: "Citation Generators: APA, MLA, Chicago & More",
+    title: "Free Citation Generators by Style",
     description:
-      "Choose a citation style by writing context, then generate citations with source checks and editable fields.",
+      "Open the citation generator that matches your assignment, subject, or journal requirement.",
     url: absoluteUrl("/tools/")
   }
 };
@@ -42,28 +42,28 @@ const clusterIcons: Record<string, typeof Flask> = {
 const clusterCopy: Record<string, { title: string; description: string }> = {
   "Science and medical": {
     title: "Science and medical writing",
-    description: "For journal articles, lab reports, medical coursework, DOI checks, and NLM journal abbreviation workflows."
+    description: "Use these styles for lab reports, medical papers, journal articles, biology courses, and chemistry assignments."
   },
   Engineering: {
     title: "Engineering and computer science",
-    description: "For numbered citations, conference papers, technical reports, and engineering coursework."
+    description: "Use IEEE when your source list needs numbered references for engineering, computing, or conference papers."
   },
   Humanities: {
     title: "Humanities and student papers",
-    description: "For Works Cited pages, notes, bibliographies, and sources where container details matter."
+    description: "Use these styles for history, literature, writing courses, footnotes, bibliographies, and Works Cited pages."
   },
   "Common author-date styles": {
     title: "Common author-date styles",
-    description: "For social science, education, business, and international assignments that use author-date references."
+    description: "Use these styles when your assignment expects author-date citations in social science, education, or business."
   }
 };
 
 const quickStyles = formatLinks(["apa", "mla", "chicago", "acs", "ama", "ieee"]);
 
 const citationModeLabels: Record<GeneratorFormat["citationMode"], string> = {
-  "author-date": "Author-date",
-  numeric: "Numeric",
-  note: "Notes"
+  "author-date": "Author-date in text",
+  numeric: "Numbered in text",
+  note: "Footnotes or notes"
 };
 
 const formatUseCases: Record<GeneratorSlug, string> = {
@@ -81,49 +81,54 @@ const formatUseCases: Record<GeneratorSlug, string> = {
 
 const trustChecks = [
   {
-    title: "Source labels",
-    body: "CrossRef, Google Books, URL metadata, NLM, or manual entry stays visible beside the result.",
+    title: "Start from the requirement",
+    body: "If your instructor or journal names a style, open that generator first.",
+    icon: ListChecks
+  },
+  {
+    title: "Use the source you have",
+    body: "Paste a DOI, ISBN, URL, title, or enter the source by hand when search does not find enough details.",
     icon: Database
   },
   {
-    title: "Missing-field warnings",
-    body: "Author, date, page, DOI, ISBN, or URL gaps are shown before you copy the citation.",
+    title: "Fix details before copying",
+    body: "Check author names, dates, page ranges, DOI, URL, and titles before you paste into your paper.",
     icon: WarningCircle
   },
   {
-    title: "Editable metadata",
-    body: "Fix title, author, date, volume, issue, page, URL, or DOI fields before regenerating.",
+    title: "Edit the result",
+    body: "Adjust fields on the citation page instead of rewriting the whole reference from scratch.",
     icon: PencilSimpleLine
   },
   {
     title: "No signup required",
-    body: "Core generation, manual entry, editing, and copying are available for quick coursework and research tasks.",
-    icon: ListChecks
+    body: "Create and copy citations directly for homework, drafts, lab reports, and research notes.",
+    icon: MagnifyingGlass
   }
 ];
 
 const workflowSteps = [
-  "Choose a style",
-  "Paste a DOI, ISBN, URL, or title",
-  "Review source labels and warnings",
-  "Edit, regenerate, and copy"
+  "Find the style named in your instructions",
+  "Choose a generator by subject if no style is named",
+  "Paste the source information you have",
+  "Review, edit, and copy the citation"
 ];
 
 const toolFaqs = [
   {
     question: "Which citation generator should I choose?",
     answer:
-      "Start with the format named in your assignment, journal, or style guide. If the requirement is unclear, APA is common in social science and education, MLA in literature and writing courses, Chicago or Turabian in humanities, AMA or Vancouver in medical writing, ACS in chemistry, and IEEE in engineering or computer science."
+      "Use the format named in your assignment, syllabus, journal instructions, or style guide. If no style is named, choose by subject: APA for many social science papers, MLA for literature and writing courses, Chicago or Turabian for humanities, AMA or Vancouver for medical writing, ACS for chemistry, and IEEE for engineering or computer science."
   },
   {
-    question: "Do these tools invent missing citation data?",
+    question: "What if my citation is missing details?",
     answer:
-      "No. The tools use public metadata sources when available. If author, date, page, DOI, or other important fields are missing, the page shows a warning so you can confirm or add the details manually."
+      "Do not copy it blindly. Open the result, add the missing author, date, page range, publisher, DOI, or URL if you can find it on the source, then copy the citation."
   },
   {
-    question: "Can I edit a citation after lookup?",
+    question: "Can I change a citation before I copy it?",
     answer:
-      "Yes. Each generator keeps the citation fields editable, so you can fix title casing, author order, publication date, volume, issue, pages, URL, or DOI before copying."
+      "Yes. After the generator finds a source, you can adjust title casing, author order, publication date, volume, issue, pages, URL, DOI, and other source details before copying."
   },
   {
     question: "Which formats work best for science, medical, or engineering sources?",
@@ -133,7 +138,7 @@ const toolFaqs = [
   {
     question: "Are the citation tools free?",
     answer:
-      "Yes. The common citation formats, metadata lookup, manual entry, result editing, and citation copying can be used directly without creating an account."
+      "Yes. You can open a generator, enter source information, edit the citation, and copy the result without creating an account."
   }
 ];
 
@@ -146,8 +151,8 @@ export default function ToolsPage() {
         data={{
           "@context": "https://schema.org",
           "@type": "CollectionPage",
-          name: "Free Citation Generator Tools",
-          description: `${toolCount} free citation generators with source labels, missing-field warnings, and editable fields.`,
+          name: "Free Citation Generators by Style",
+          description: `${toolCount} citation generators for students, researchers, lab reports, journal articles, websites, books, and class assignments.`,
           url: absoluteUrl("/tools/")
         }}
       />
@@ -182,14 +187,14 @@ export default function ToolsPage() {
           <div className="tools-hero-copy">
             <p className="home-kicker">Citation tools</p>
             <h1 className="font-editorial mt-3 text-balance text-[34px] leading-[1.12] text-ink md:text-[52px]">
-              Choose the right citation generator
+              Find the citation generator your paper needs
             </h1>
             <p className="mt-4 max-w-[64ch] text-pretty text-[16px] leading-7 text-dim">
-              Start with APA, MLA, Chicago, ACS, AMA, IEEE, or another required style. Paste a source, then generate an editable citation with visible data sources, field warnings, and copy-ready output.
+              Start with the style named in your assignment, syllabus, or journal instructions. Then cite a book, article, website, DOI, ISBN, or source you enter by hand.
             </p>
             <div className="hero-action-row">
               <Link href="/apa-citation-generator/" className="action-primary">
-                Start with APA
+                Open APA generator
                 <ArrowRight aria-hidden="true" size={17} />
               </Link>
               <a href="#style-picker" className="action-secondary">
@@ -197,14 +202,14 @@ export default function ToolsPage() {
               </a>
             </div>
           </div>
-          <aside className="tools-hero-panel" aria-label="Citation generation workflow">
+          <aside className="tools-hero-panel" aria-label="How to choose a citation generator">
             <div className="tools-panel-top">
               <span className="tools-panel-icon" aria-hidden="true">
                 <MagnifyingGlass size={21} />
               </span>
               <div>
-                <p>Fastest path</p>
-                <strong>Choose style first, then review evidence</strong>
+                <p>Not sure where to start?</p>
+                <strong>Use the style named by your class, subject, or journal.</strong>
               </div>
             </div>
             <ol className="tools-flow-list">
@@ -217,7 +222,7 @@ export default function ToolsPage() {
             </ol>
             <div className="tools-panel-note">
               <span>{toolCount} styles</span>
-              <p>Built for coursework, lab reports, paper drafts, and research source cleanup.</p>
+              <p>If your instructions say "use APA 7" or "use IEEE," go straight to that generator.</p>
             </div>
           </aside>
         </div>
@@ -228,11 +233,11 @@ export default function ToolsPage() {
           <div>
             <p className="home-kicker">Quick style picker</p>
             <h2 id="quick-style-heading" className="font-editorial text-balance text-[30px] leading-[1.16] text-ink md:text-[42px]">
-              Keep common formats close.
+              Popular citation generators.
             </h2>
           </div>
           <p>
-            If you already know the required style, open the exact generator. If you are not sure, use the writing-context groups below to narrow the choice.
+            Most students need one of these formats. Open the style your assignment asks for, then enter the source you want to cite.
           </p>
         </div>
         <div className="tools-quick-grid">
@@ -255,9 +260,9 @@ export default function ToolsPage() {
 
       <section className="site-shell tools-trust-section" aria-labelledby="tools-trust-heading">
         <div className="tools-trust-copy">
-          <p className="home-kicker">Trust checks</p>
+          <p className="home-kicker">Before you copy</p>
           <h2 id="tools-trust-heading" className="font-editorial text-balance text-[30px] leading-[1.16] text-ink md:text-[42px]">
-            Do not just copy an answer. See where the citation data came from.
+            Make the citation fit your source, not just the format.
           </h2>
         </div>
         <div className="tools-trust-grid">
@@ -279,13 +284,13 @@ export default function ToolsPage() {
       <section className="site-shell tools-section" aria-labelledby="tools-clusters-heading">
         <div className="tools-section-header">
           <div>
-            <p className="home-kicker">Choose by writing context</p>
+            <p className="home-kicker">Choose by subject</p>
             <h2 id="tools-clusters-heading" className="font-editorial text-balance text-[30px] leading-[1.16] text-ink md:text-[42px]">
-              Choose a citation style by writing context.
+              Match the style to your class or field.
             </h2>
           </div>
           <p>
-            Citation formats are only useful when they match your course, discipline, or submission requirement. Start by context, then open the exact generator.
+            Use this section when your assignment does not clearly name a style. Pick the group closest to your course, then open the generator that matches the requirement.
           </p>
         </div>
 
@@ -322,7 +327,7 @@ export default function ToolsPage() {
                     <small>{format.edition}</small>
                     <p>{formatUseCases[format.slug]}</p>
                     <span className="tools-format-footer">
-                      Open tool
+                      Open generator
                       <ArrowRight
                         aria-hidden="true"
                         size={16}
@@ -341,10 +346,10 @@ export default function ToolsPage() {
         <div className="tools-faq-copy">
           <p className="home-kicker">FAQ</p>
           <h2 id="tools-faq-heading" className="font-editorial text-balance text-[30px] leading-[1.16] text-ink md:text-[42px]">
-            Common questions before choosing a citation tool.
+            Common questions before choosing a generator.
           </h2>
           <p>
-            Resolve the three decisions that matter most: format choice, data trust, and whether the result can be edited before copying.
+            If your instructions are unclear, start here before opening a style-specific generator.
           </p>
         </div>
         <div className="tools-faq-list">
