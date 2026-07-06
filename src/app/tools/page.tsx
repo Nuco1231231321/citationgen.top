@@ -18,16 +18,16 @@ import type { GeneratorFormat, GeneratorSlug } from "@/lib/formats";
 import { absoluteUrl } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "引用生成器工具：APA、MLA、Chicago 等",
+  title: "Citation Generators: APA, MLA, Chicago & More",
   description:
-    "选择 APA、MLA、Chicago、ACS、AMA、IEEE、Vancouver、CSE、Turabian 和 Harvard 引用生成器，查看来源标签、缺失字段提示和可编辑字段。",
+    "Choose the right APA, MLA, Chicago, ACS, AMA, IEEE, Vancouver, CSE, Turabian, or Harvard citation generator with source labels, missing-field warnings, and editable fields.",
   alternates: {
     canonical: absoluteUrl("/tools/")
   },
   openGraph: {
-    title: "引用生成器工具：APA、MLA、Chicago 等",
+    title: "Citation Generators: APA, MLA, Chicago & More",
     description:
-      "按写作场景选择引用格式，并使用带来源检查和可编辑字段的引用生成器。",
+      "Choose a citation style by writing context, then generate citations with source checks and editable fields.",
     url: absoluteUrl("/tools/")
   }
 };
@@ -41,99 +41,99 @@ const clusterIcons: Record<string, typeof Flask> = {
 
 const clusterCopy: Record<string, { title: string; description: string }> = {
   "Science and medical": {
-    title: "科学与医学写作",
-    description: "适合期刊论文、实验报告、医学课程和需要 DOI、NLM 期刊缩写检查的资料。"
+    title: "Science and medical writing",
+    description: "For journal articles, lab reports, medical coursework, DOI checks, and NLM journal abbreviation workflows."
   },
   Engineering: {
-    title: "工程与计算机科学",
-    description: "适合编号引用、会议论文、技术报告和工程类课程作业。"
+    title: "Engineering and computer science",
+    description: "For numbered citations, conference papers, technical reports, and engineering coursework."
   },
   Humanities: {
-    title: "人文与学生论文",
-    description: "适合 Works Cited、脚注、参考书目和需要清楚区分容器信息的来源。"
+    title: "Humanities and student papers",
+    description: "For Works Cited pages, notes, bibliographies, and sources where container details matter."
   },
   "Common author-date styles": {
-    title: "常见作者-日期格式",
-    description: "适合社科、教育、商业和国际课程里最常见的作者-日期引用要求。"
+    title: "Common author-date styles",
+    description: "For social science, education, business, and international assignments that use author-date references."
   }
 };
 
 const quickStyles = formatLinks(["apa", "mla", "chicago", "acs", "ama", "ieee"]);
 
 const citationModeLabels: Record<GeneratorFormat["citationMode"], string> = {
-  "author-date": "作者-日期",
-  numeric: "编号引用",
-  note: "脚注/尾注"
+  "author-date": "Author-date",
+  numeric: "Numeric",
+  note: "Notes"
 };
 
 const formatUseCases: Record<GeneratorSlug, string> = {
-  ama: "医学、护理、公共卫生和生物医学写作常用。",
-  acs: "化学、材料科学、实验报告和期刊文章常用。",
-  cse: "生物、生态、环境科学和科学写作课程常用。",
-  ieee: "工程、计算机科学、会议论文和技术文档常用。",
-  turabian: "历史、人文课程和学生论文脚注体系常用。",
-  chicago: "人文、出版写作和需要作者-日期或脚注体系的论文常用。",
-  mla: "文学、语言、写作课和 Works Cited 页面常用。",
-  vancouver: "医学期刊、临床资料和紧凑编号引用常用。",
-  harvard: "社科、商业、教育和国际大学作业常用。",
-  apa: "心理学、教育、社科和研究论文作者-日期引用常用。"
+  ama: "Common in medicine, nursing, public health, and biomedical writing.",
+  acs: "Common in chemistry, materials science, lab reports, and journal articles.",
+  cse: "Common in biology, ecology, environmental science, and science writing courses.",
+  ieee: "Common in engineering, computer science, conference papers, and technical documentation.",
+  turabian: "Common in history, humanities coursework, and student-paper note systems.",
+  chicago: "Common in humanities, publishing, and papers that use author-date or notes.",
+  mla: "Common in literature, language, writing courses, and Works Cited pages.",
+  vancouver: "Common in medical journals, clinical sources, and compact numeric references.",
+  harvard: "Common in social science, business, education, and international university assignments.",
+  apa: "Common in psychology, education, social science, and author-date research papers."
 };
 
 const trustChecks = [
   {
-    title: "来源标签",
-    body: "CrossRef、Google Books、URL metadata、NLM 或手动输入会在结果旁边保留标记。",
+    title: "Source labels",
+    body: "CrossRef, Google Books, URL metadata, NLM, or manual entry stays visible beside the result.",
     icon: Database
   },
   {
-    title: "缺失字段提示",
-    body: "作者、日期、页码、DOI、ISBN 或 URL 缺失时，页面会先提醒再让你复制。",
+    title: "Missing-field warnings",
+    body: "Author, date, page, DOI, ISBN, or URL gaps are shown before you copy the citation.",
     icon: WarningCircle
   },
   {
-    title: "可编辑元数据",
-    body: "查到结果后仍可修改标题、作者、日期、卷期、页码等字段，再重新生成。",
+    title: "Editable metadata",
+    body: "Fix title, author, date, volume, issue, page, URL, or DOI fields before regenerating.",
     icon: PencilSimpleLine
   },
   {
-    title: "无需注册",
-    body: "核心引用生成、复制和手动输入流程免费开放，适合快速完成课程和研究任务。",
+    title: "No signup required",
+    body: "Core generation, manual entry, editing, and copying are available for quick coursework and research tasks.",
     icon: ListChecks
   }
 ];
 
 const workflowSteps = [
-  "选择格式",
-  "粘贴 DOI、ISBN、URL 或标题",
-  "检查来源标签与缺失字段",
-  "编辑后复制引用"
+  "Choose a style",
+  "Paste a DOI, ISBN, URL, or title",
+  "Review source labels and warnings",
+  "Edit, regenerate, and copy"
 ];
 
 const toolFaqs = [
   {
-    question: "我应该选择哪个引用生成器？",
+    question: "Which citation generator should I choose?",
     answer:
-      "先看作业或期刊要求。如果没有明确说明，社科和教育常用 APA，文学和写作课常用 MLA，历史和人文常用 Chicago 或 Turabian，医学常用 AMA 或 Vancouver，化学常用 ACS，工程和计算机科学常用 IEEE。"
+      "Start with the format named in your assignment, journal, or style guide. If the requirement is unclear, APA is common in social science and education, MLA in literature and writing courses, Chicago or Turabian in humanities, AMA or Vancouver in medical writing, ACS in chemistry, and IEEE in engineering or computer science."
   },
   {
-    question: "这些工具会自动编造缺失的引用数据吗？",
+    question: "Do these tools invent missing citation data?",
     answer:
-      "不会。工具会使用公开元数据来源查找信息；如果缺少作者、日期、页码、DOI 或其他关键字段，会显示缺失提示，让你手动确认或补充。"
+      "No. The tools use public metadata sources when available. If author, date, page, DOI, or other important fields are missing, the page shows a warning so you can confirm or add the details manually."
   },
   {
-    question: "查到引用后还能编辑吗？",
+    question: "Can I edit a citation after lookup?",
     answer:
-      "可以。每个生成器都保留可编辑字段，你可以修正标题大小写、作者顺序、出版日期、卷期、页码、URL 或 DOI 后再复制。"
+      "Yes. Each generator keeps the citation fields editable, so you can fix title casing, author order, publication date, volume, issue, pages, URL, or DOI before copying."
   },
   {
-    question: "医学、科学和工程资料更适合哪些格式？",
+    question: "Which formats work best for science, medical, or engineering sources?",
     answer:
-      "医学和公共卫生通常从 AMA 或 Vancouver 开始；化学和材料科学通常用 ACS；生物和环境科学可看 CSE；工程、计算机科学和会议论文通常用 IEEE。"
+      "Medical and public health writing often starts with AMA or Vancouver. Chemistry and materials science usually use ACS. Biology and environmental science may use CSE. Engineering, computer science, and conference papers often use IEEE."
   },
   {
-    question: "这些引用工具是免费的吗？",
+    question: "Are the citation tools free?",
     answer:
-      "是的。常用引用格式、元数据查询、手动输入、结果编辑和复制都可以直接使用，不需要注册账号。"
+      "Yes. The common citation formats, metadata lookup, manual entry, result editing, and citation copying can be used directly without creating an account."
   }
 ];
 
@@ -146,8 +146,8 @@ export default function ToolsPage() {
         data={{
           "@context": "https://schema.org",
           "@type": "CollectionPage",
-          name: "免费引用生成器工具",
-          description: `${toolCount} 个免费引用生成器，支持来源标签、缺失字段提示和可编辑字段。`,
+          name: "Free Citation Generator Tools",
+          description: `${toolCount} free citation generators with source labels, missing-field warnings, and editable fields.`,
           url: absoluteUrl("/tools/")
         }}
       />
@@ -171,40 +171,40 @@ export default function ToolsPage() {
           <ol className="flex flex-wrap items-center gap-2">
             <li>
               <Link href="/" className="hover:text-ink transition-colors">
-                首页
+                Home
               </Link>
             </li>
             <li aria-hidden="true" className="text-faint">/</li>
-            <li className="font-medium text-ink">引用工具</li>
+            <li className="font-medium text-ink">Citation tools</li>
           </ol>
         </nav>
         <div className="tools-hero">
           <div className="tools-hero-copy">
-            <p className="home-kicker">引用工具</p>
+            <p className="home-kicker">Citation tools</p>
             <h1 className="font-editorial mt-3 text-balance text-[34px] leading-[1.12] text-ink md:text-[52px]">
-              选择合适的引用生成器
+              Choose the right citation generator
             </h1>
             <p className="mt-4 max-w-[64ch] text-pretty text-[16px] leading-7 text-dim">
-              从 APA、MLA、Chicago、ACS、AMA、IEEE 等格式开始，粘贴来源后生成可编辑引用。页面会显示数据来源、缺失字段和可复制结果。
+              Start with APA, MLA, Chicago, ACS, AMA, IEEE, or another required style. Paste a source, then generate an editable citation with visible data sources, field warnings, and copy-ready output.
             </p>
             <div className="hero-action-row">
               <Link href="/apa-citation-generator/" className="action-primary">
-                从 APA 开始
+                Start with APA
                 <ArrowRight aria-hidden="true" size={17} />
               </Link>
               <a href="#style-picker" className="action-secondary">
-                查看全部格式
+                See all formats
               </a>
             </div>
           </div>
-          <aside className="tools-hero-panel" aria-label="引用生成流程">
+          <aside className="tools-hero-panel" aria-label="Citation generation workflow">
             <div className="tools-panel-top">
               <span className="tools-panel-icon" aria-hidden="true">
                 <MagnifyingGlass size={21} />
               </span>
               <div>
-                <p>最快路径</p>
-                <strong>先选格式，再检查来源</strong>
+                <p>Fastest path</p>
+                <strong>Choose style first, then review evidence</strong>
               </div>
             </div>
             <ol className="tools-flow-list">
@@ -216,8 +216,8 @@ export default function ToolsPage() {
               ))}
             </ol>
             <div className="tools-panel-note">
-              <span>{toolCount} 种格式</span>
-              <p>适合课程作业、实验报告、论文草稿和研究资料整理。</p>
+              <span>{toolCount} styles</span>
+              <p>Built for coursework, lab reports, paper drafts, and research source cleanup.</p>
             </div>
           </aside>
         </div>
@@ -226,13 +226,13 @@ export default function ToolsPage() {
       <section id="style-picker" className="site-shell tools-section" aria-labelledby="quick-style-heading">
         <div className="tools-section-header">
           <div>
-            <p className="home-kicker">快速选择</p>
+            <p className="home-kicker">Quick style picker</p>
             <h2 id="quick-style-heading" className="font-editorial text-balance text-[30px] leading-[1.16] text-ink md:text-[42px]">
-              常用格式先放到手边。
+              Keep common formats close.
             </h2>
           </div>
           <p>
-            如果你已经知道要求，用这些快捷入口直接进入对应生成器；如果不确定，再看下面的写作场景分组。
+            If you already know the required style, open the exact generator. If you are not sure, use the writing-context groups below to narrow the choice.
           </p>
         </div>
         <div className="tools-quick-grid">
@@ -240,7 +240,7 @@ export default function ToolsPage() {
             <Link key={format.slug} href={format.href} className="tools-quick-card group">
               <span className="tools-quick-code">{format.label}</span>
               <span>
-                <strong>{format.label} 引用生成器</strong>
+                <strong>{format.label} Citation Generator</strong>
                 <small>{formatUseCases[format.slug]}</small>
               </span>
               <ArrowRight
@@ -255,9 +255,9 @@ export default function ToolsPage() {
 
       <section className="site-shell tools-trust-section" aria-labelledby="tools-trust-heading">
         <div className="tools-trust-copy">
-          <p className="home-kicker">可信检查</p>
+          <p className="home-kicker">Trust checks</p>
           <h2 id="tools-trust-heading" className="font-editorial text-balance text-[30px] leading-[1.16] text-ink md:text-[42px]">
-            不是只给一个答案，而是让你看到答案从哪里来。
+            Do not just copy an answer. See where the citation data came from.
           </h2>
         </div>
         <div className="tools-trust-grid">
@@ -279,13 +279,13 @@ export default function ToolsPage() {
       <section className="site-shell tools-section" aria-labelledby="tools-clusters-heading">
         <div className="tools-section-header">
           <div>
-            <p className="home-kicker">按场景选择</p>
+            <p className="home-kicker">Choose by writing context</p>
             <h2 id="tools-clusters-heading" className="font-editorial text-balance text-[30px] leading-[1.16] text-ink md:text-[42px]">
-              按写作场景选择引用格式。
+              Choose a citation style by writing context.
             </h2>
           </div>
           <p>
-            引用格式的价值不在“多”，而在是否匹配你的课程、学科或投稿要求。先按场景缩小范围，再进入具体生成器。
+            Citation formats are only useful when they match your course, discipline, or submission requirement. Start by context, then open the exact generator.
           </p>
         </div>
 
@@ -318,11 +318,11 @@ export default function ToolsPage() {
                       <span className="tools-format-code">{format.label}</span>
                       <span>{citationModeLabels[format.citationMode]}</span>
                     </span>
-                    <strong>{format.label} 引用生成器</strong>
+                    <strong>{format.label} Citation Generator</strong>
                     <small>{format.edition}</small>
                     <p>{formatUseCases[format.slug]}</p>
                     <span className="tools-format-footer">
-                      打开工具
+                      Open tool
                       <ArrowRight
                         aria-hidden="true"
                         size={16}
@@ -339,12 +339,12 @@ export default function ToolsPage() {
 
       <section className="site-shell tools-faq-section" aria-labelledby="tools-faq-heading">
         <div className="tools-faq-copy">
-          <p className="home-kicker">常见问题</p>
+          <p className="home-kicker">FAQ</p>
           <h2 id="tools-faq-heading" className="font-editorial text-balance text-[30px] leading-[1.16] text-ink md:text-[42px]">
-            选择引用工具前的常见问题。
+            Common questions before choosing a citation tool.
           </h2>
           <p>
-            先解决格式选择、数据可信度和编辑流程三个关键问题，再进入生成器会更快。
+            Resolve the three decisions that matter most: format choice, data trust, and whether the result can be edited before copying.
           </p>
         </div>
         <div className="tools-faq-list">
