@@ -14,6 +14,20 @@ export async function fetchJson<T>(
   });
 
   if (!response.ok) {
+    if (response.status === 429) {
+      throw new MetadataError(
+        `${options?.errorLabel ?? "Metadata provider"} is rate limiting requests. Try again in a minute or use manual entry.`,
+        { status: 429, code: "provider_rate_limited" }
+      );
+    }
+
+    if (response.status >= 500) {
+      throw new MetadataError(
+        `${options?.errorLabel ?? "Metadata provider"} is temporarily unavailable. Try manual entry if you need the citation now.`,
+        { status: 503, code: "provider_unavailable" }
+      );
+    }
+
     throw new MetadataError(
       `${options?.errorLabel ?? "Metadata request"} failed with status ${response.status}.`,
       { status: response.status, code: "provider_http_error" }

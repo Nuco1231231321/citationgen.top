@@ -4,7 +4,7 @@ import { siteConfig } from "@/lib/site";
 
 export function SiteFooter() {
   return (
-    <footer className="mt-24 bg-ink text-faint">
+    <footer className="site-footer mt-24 bg-ink text-faint">
       <div className="site-shell grid gap-10 py-16 lg:grid-cols-[0.9fr_2.1fr]">
         <div>
           <div className="mb-3 flex items-center gap-2 text-page">

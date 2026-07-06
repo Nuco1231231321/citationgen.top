@@ -14,26 +14,38 @@ type NlmRow = {
   iso_abbr: string | null;
 };
 
-type NlmData = {
-  values: Array<[string, string, string]>;
-  map: Record<string, number>;
+export type D1DatabaseLike = {
+  prepare(query: string): D1PreparedStatementLike;
 };
 
-const nlmAssetPath = "/citation-data/nlm-data.json";
-let cachedNlmData: NlmData | undefined;
-let pendingNlmData: Promise<NlmData | undefined> | undefined;
+type D1PreparedStatementLike = {
+  bind(...values: string[]): D1PreparedStatementLike;
+  first<T>(): Promise<T | null>;
+};
+
+const journalLookupSql = `
+  select journal_title, med_abbr, iso_abbr
+  from journals
+  where normalized_title = ?
+     or normalized_med_abbr = ?
+     or normalized_iso_abbr = ?
+  limit 1
+`;
+
+let unavailableWarningShown = false;
 let normalizedAcsPatches: Map<string, string> | undefined;
 
 export async function lookupJournalAbbreviation(
   journalTitle: string | undefined,
   styleSlug: string,
-  assetOrigin?: string
+  assetOrigin?: string,
+  database?: D1DatabaseLike
 ): Promise<AbbreviationLookup | undefined> {
   if (!journalTitle) return undefined;
   const normalizedTitle = normalizeJournalName(journalTitle);
   if (!normalizedTitle) return undefined;
 
-  const nlmRow = await lookupNlmRow(normalizedTitle, assetOrigin);
+  const nlmRow = await lookupNlmRow(normalizedTitle, assetOrigin, database);
   if (nlmRow) {
     const baseAbbreviation = nlmRow.iso_abbr || nlmRow.med_abbr;
     if (baseAbbreviation) {
@@ -94,86 +106,59 @@ export function normalizeJournalName(value: string) {
 
 async function lookupNlmRow(
   normalizedTitle: string,
-  assetOrigin?: string
+  _assetOrigin?: string,
+  database?: D1DatabaseLike
 ): Promise<NlmRow | undefined> {
-  const data = await loadNlmData(assetOrigin);
-  if (!data) return undefined;
+  if (database) {
+    const row = await lookupD1Row(database, normalizedTitle);
+    if (row) return row;
+  }
 
-  const rowIndex = data.map[normalizedTitle];
-  if (rowIndex === undefined) return undefined;
+  const d1Row = await lookupCloudflareD1Row(normalizedTitle);
+  if (d1Row) return d1Row;
 
-  const row = data.values[rowIndex];
-  if (!row) return undefined;
-
-  return {
-    journal_title: row[0],
-    med_abbr: row[1] || null,
-    iso_abbr: row[2] || null
-  };
+  warnNlmUnavailable();
+  return undefined;
 }
 
-async function loadNlmData(assetOrigin?: string): Promise<NlmData | undefined> {
-  if (cachedNlmData) return cachedNlmData;
-
-  pendingNlmData ??= readNlmAsset(assetOrigin).then((data) => {
-    cachedNlmData = data;
-    return data;
-  });
-
-  return pendingNlmData;
-}
-
-async function readNlmAsset(assetOrigin?: string): Promise<NlmData | undefined> {
-  const fromCloudflareAssets = await readFromCloudflareAssets();
-  if (fromCloudflareAssets) return fromCloudflareAssets;
-
-  const fromRequestOrigin = await readFromRequestOrigin(assetOrigin);
-  if (fromRequestOrigin) return fromRequestOrigin;
-
-  return readFromLocalPublicFile();
-}
-
-async function readFromCloudflareAssets(): Promise<NlmData | undefined> {
+async function lookupCloudflareD1Row(normalizedTitle: string): Promise<NlmRow | undefined> {
   try {
     const { getCloudflareContext } = await import("@opennextjs/cloudflare");
     const cloudflareContext = await getCloudflareContext({ async: true });
-    const assets = cloudflareContext.env.ASSETS;
-    if (!assets) return undefined;
+    const env = cloudflareContext.env as { NLM_DB?: D1DatabaseLike };
+    if (!env.NLM_DB) return undefined;
 
-    const response = await assets.fetch(`https://citationgen.top${nlmAssetPath}`);
-    return parseNlmResponse(response);
+    const row = await lookupD1Row(env.NLM_DB, normalizedTitle);
+    return normalizeNlmRow(row);
   } catch {
     return undefined;
   }
 }
 
-async function readFromRequestOrigin(assetOrigin?: string): Promise<NlmData | undefined> {
-  if (!assetOrigin) return undefined;
-
-  try {
-    const response = await fetch(new URL(nlmAssetPath, assetOrigin));
-    return parseNlmResponse(response);
-  } catch {
-    return undefined;
-  }
+async function lookupD1Row(database: D1DatabaseLike, normalizedTitle: string) {
+  return database
+    .prepare(journalLookupSql)
+    .bind(normalizedTitle, normalizedTitle, normalizedTitle)
+    .first<NlmRow>();
 }
 
-async function readFromLocalPublicFile(): Promise<NlmData | undefined> {
-  try {
-    const [{ readFile }, path] = await Promise.all([
-      import("node:fs/promises"),
-      import("node:path")
-    ]);
-    const raw = await readFile(path.join(process.cwd(), "public", "citation-data", "nlm-data.json"), "utf8");
-    return JSON.parse(raw) as NlmData;
-  } catch {
-    return undefined;
-  }
+function normalizeNlmRow(row: unknown): NlmRow | undefined {
+  if (!row || typeof row !== "object") return undefined;
+  const candidate = row as Partial<NlmRow>;
+  if (!candidate.journal_title) return undefined;
+  return {
+    journal_title: String(candidate.journal_title),
+    med_abbr: candidate.med_abbr ? String(candidate.med_abbr) : null,
+    iso_abbr: candidate.iso_abbr ? String(candidate.iso_abbr) : null
+  };
 }
 
-async function parseNlmResponse(response: Response): Promise<NlmData | undefined> {
-  if (!response.ok) return undefined;
-  return (await response.json()) as NlmData;
+function warnNlmUnavailable() {
+  if (unavailableWarningShown) return;
+  unavailableWarningShown = true;
+  console.warn(
+    "NLM journal database is unavailable. Configure the NLM_DB D1 binding for journal abbreviation lookups."
+  );
 }
 
 function addAcsPeriods(value: string) {

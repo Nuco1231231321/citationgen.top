@@ -33,6 +33,8 @@ type CrossrefResponse<T> = {
 };
 
 const crossrefMailto = process.env.CROSSREF_MAILTO?.trim();
+const crossrefCacheTtlMs = 24 * 60 * 60 * 1000;
+const crossrefResponseCache = new Map<string, { expiresAt: number; value: unknown }>();
 
 const crossrefHeaders = {
   "User-Agent": crossrefMailto
@@ -48,11 +50,12 @@ function crossrefApiUrl(path: string, params = new URLSearchParams()) {
 
 export async function lookupCrossrefDoi(doi: string) {
   const cleanDoi = encodeURIComponent(doi);
-  const response = await fetchJson<CrossrefResponse<CrossrefWork>>(
-    crossrefApiUrl(`/works/${cleanDoi}`),
+  const url = crossrefApiUrl(`/works/${cleanDoi}`);
+  const response = await fetchCrossrefJson<CrossrefResponse<CrossrefWork>>(
+    url,
     {
       headers: crossrefHeaders,
-      timeoutMs: 8000,
+      timeoutMs: 6000,
       errorLabel: "CrossRef DOI lookup"
     }
   );
@@ -72,12 +75,13 @@ export async function searchCrossrefTitle(title: string) {
     "query.title": title,
     rows: "1"
   });
+  const url = crossrefApiUrl("/works", params);
 
-  const response = await fetchJson<
+  const response = await fetchCrossrefJson<
     CrossrefResponse<{ items?: CrossrefWork[]; "total-results"?: number }>
-  >(crossrefApiUrl("/works", params), {
+  >(url, {
     headers: crossrefHeaders,
-    timeoutMs: 8000,
+    timeoutMs: 6000,
     errorLabel: "CrossRef title search"
   });
 
@@ -90,6 +94,27 @@ export async function searchCrossrefTitle(title: string) {
   }
 
   return { metadata: crossrefWorkToMetadata(item, "Data from CrossRef title search") };
+}
+
+async function fetchCrossrefJson<T>(
+  url: string,
+  options: {
+    timeoutMs: number;
+    headers: HeadersInit;
+    errorLabel: string;
+  }
+) {
+  const cached = crossrefResponseCache.get(url);
+  if (cached && cached.expiresAt > Date.now()) {
+    return cached.value as T;
+  }
+
+  const response = await fetchJson<T>(url, options);
+  crossrefResponseCache.set(url, {
+    value: response,
+    expiresAt: Date.now() + crossrefCacheTtlMs
+  });
+  return response;
 }
 
 function crossrefWorkToMetadata(work: CrossrefWork, sourceLabel: string): CitationMetadata {

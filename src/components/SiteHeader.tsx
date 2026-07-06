@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { List } from "@phosphor-icons/react/dist/ssr";
+import { GraduationCap, List } from "@phosphor-icons/react/dist/ssr";
 import { corePages } from "@/lib/navigation";
 import { generatorPath } from "@/lib/formats";
 import { siteConfig } from "@/lib/site";
@@ -10,9 +10,18 @@ export function SiteHeader() {
 
   return (
     <header className="site-header">
+      <div className="site-topbar">
+        <div className="site-shell site-topbar-inner">
+          <Link href="/#home-faq-heading">FAQ</Link>
+          {aboutPage ? <Link href={aboutPage.href}>About</Link> : null}
+          {blogPage ? <Link href={blogPage.href}>Guides</Link> : null}
+        </div>
+      </div>
       <nav aria-label="Main navigation" className="site-shell site-nav">
         <Link href="/" className="nav-brand">
-          <span aria-hidden="true" className="block h-2 w-2 rounded-full bg-accent" />
+          <span aria-hidden="true" className="nav-brand-mark">
+            <GraduationCap size={26} weight="bold" />
+          </span>
           <span>{siteConfig.name}</span>
         </Link>
 
@@ -20,10 +29,16 @@ export function SiteHeader() {
           <Link href="/tools/" className="nav-link">
             Citation tools
           </Link>
+          <Link href={generatorPath("apa")} className="nav-link">
+            APA
+          </Link>
+          <Link href={generatorPath("mla")} className="nav-link">
+            MLA
+          </Link>
 
           {blogPage ? (
             <Link href={blogPage.href} className="nav-link">
-              Blog
+              Guides
             </Link>
           ) : null}
 

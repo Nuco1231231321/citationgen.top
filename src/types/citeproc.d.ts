@@ -2,7 +2,8 @@ declare module "citeproc" {
   export class Engine {
     constructor(sys: unknown, style: string, lang?: string, forceLang?: boolean);
     updateItems(ids: string[]): void;
-    makeBibliography(): [unknown, string[]];
+    makeBibliography(): [unknown, string[]] | false;
+    makeCitationCluster(citationItems: Array<{ id: string }>): string;
     previewCitationCluster(
       citation: {
         citationItems: Array<{ id: string }>;

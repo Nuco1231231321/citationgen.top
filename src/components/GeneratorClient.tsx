@@ -2,7 +2,10 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
+  CaretDown,
+  Check,
   ClipboardText,
+  MagnifyingGlass,
   ShareNetwork
 } from "@phosphor-icons/react";
 import type {
@@ -11,7 +14,7 @@ import type {
   ResolvedSourceType,
   SourceType
 } from "@/lib/metadata/types";
-import type { GeneratorFormat, GeneratorSlug } from "@/lib/formats";
+import type { FormatVersion, GeneratorFormat, GeneratorSlug } from "@/lib/formats";
 import { generatorFormats } from "@/lib/formats";
 import { useCitationHistory } from "@/hooks/useCitationHistory";
 import { useCitationLibrary } from "@/hooks/useCitationLibrary";
@@ -49,6 +52,21 @@ type GeneratorClientProps = {
 
 type RequestState = "empty" | "loading" | "success" | "error";
 
+type CompactStyleChoice = {
+  id: string;
+  slug: GeneratorSlug;
+  versionKey?: string;
+  label: string;
+  helper: string;
+};
+
+function compactStyleName(format: GeneratorFormat, version?: FormatVersion) {
+  if (!version) return format.edition;
+  return version.label.toLowerCase().startsWith(format.label.toLowerCase())
+    ? version.label
+    : `${format.label} ${version.label}`;
+}
+
 /* -------------------------------------------------------------------------- */
 /*  Component                                                                 */
 /* -------------------------------------------------------------------------- */
@@ -74,6 +92,8 @@ export function GeneratorClient({
   const [result, setResult] = useState<CitationResponse | null>(null);
   const [metadata, setMetadata] = useState<CitationMetadata | null>(null);
   const [showSourceTypes, setShowSourceTypes] = useState(false);
+  const [compactStyleOpen, setCompactStyleOpen] = useState(false);
+  const [compactStyleSearch, setCompactStyleSearch] = useState("");
   const [activeExampleLabel, setActiveExampleLabel] = useState("");
   const [batchProgress, setBatchProgress] = useState<{
     total: number;
@@ -86,6 +106,7 @@ export function GeneratorClient({
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const generateRef = useRef<HTMLButtonElement>(null);
   const resultRegionRef = useRef<HTMLDivElement>(null);
+  const compactStyleRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setIsMac(typeof navigator !== "undefined" && /Mac|iPhone|iPad|iPod/.test(navigator.platform));
@@ -101,9 +122,46 @@ export function GeneratorClient({
   } = useCitationLibrary();
   const activeFormat =
     formatOptions?.find((option) => option.slug === selectedSlug) ?? generatorFormats[selectedSlug] ?? format;
+  const activeVersion = activeFormat.versions?.find((version) => version.key === selectedVersion);
+  const compactStyleLabel = compactStyleName(activeFormat, activeVersion);
 
   const detected = useMemo(() => detectInput(input), [input]);
   const detectionText = useMemo(() => detectionLabel(detected), [detected]);
+
+  const compactStyleChoices = useMemo<CompactStyleChoice[]>(() => {
+    const choices: CompactStyleChoice[] = [];
+
+    for (const option of formatOptions ?? [activeFormat]) {
+      if (option.versions?.length) {
+        choices.push(...option.versions.map((version) => ({
+          id: `${option.slug}:${version.key}`,
+          slug: option.slug,
+          versionKey: version.key,
+          label: compactStyleName(option, version),
+          helper: option.fullName
+        })));
+        continue;
+      }
+
+      choices.push({
+        id: option.slug,
+        slug: option.slug,
+        label: option.edition,
+        helper: option.fullName
+      });
+    }
+
+    return choices.sort((a, b) => a.label.localeCompare(b.label));
+  }, [activeFormat, formatOptions]);
+
+  const filteredCompactStyleChoices = useMemo(() => {
+    const query = compactStyleSearch.trim().toLowerCase();
+    if (!query) return compactStyleChoices;
+
+    return compactStyleChoices.filter((choice) =>
+      `${choice.label} ${choice.helper}`.toLowerCase().includes(query)
+    );
+  }, [compactStyleChoices, compactStyleSearch]);
 
   const cslOverride = getVersionCslFile(activeFormat, selectedVersion);
   const resultInLibrary = result ? hasLibraryItem(result, activeFormat.slug) : false;
@@ -124,6 +182,25 @@ export function GeneratorClient({
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
   }, [sourceType, activeFormat.slug, input, metadata, selectedVersion]);
+
+  useEffect(() => {
+    function closeCompactStyleMenu(event: PointerEvent) {
+      if (!compactStyleRef.current?.contains(event.target as Node)) {
+        setCompactStyleOpen(false);
+      }
+    }
+
+    function handleEscape(event: KeyboardEvent) {
+      if (event.key === "Escape") setCompactStyleOpen(false);
+    }
+
+    window.addEventListener("pointerdown", closeCompactStyleMenu);
+    window.addEventListener("keydown", handleEscape);
+    return () => {
+      window.removeEventListener("pointerdown", closeCompactStyleMenu);
+      window.removeEventListener("keydown", handleEscape);
+    };
+  }, []);
 
   /* ----- status message ----- */
   const statusMessage = useMemo(() => {
@@ -157,31 +234,40 @@ export function GeneratorClient({
         "requestCslFile" in opts ? opts.requestCslFile : cslOverride;
       if (requestedCslFile) body.cslFile = requestedCslFile;
 
-      const response = await fetch("/api/citations", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body)
-      });
+      try {
+        const response = await postCitation(body);
+        const payload = await readCitationPayload(response);
+        if (!response.ok) {
+          setState("error");
+          setError(readError(payload, errorMessageForStatus(response.status)));
+          setResult(null);
+          if (!opts.requestMetadata) {
+            setMetadata(createBlankMetadata(toBlankSourceType(opts.requestSourceType)));
+          }
+          revealResultRegion(opts.revealResult);
+          return;
+        }
 
-      const payload = (await response.json()) as CitationResponse | { error?: string };
-      if (!response.ok) {
+        const citation = payload as CitationResponse;
+        setResult(citation);
+        setMetadata(citation.metadata);
+        setState("success");
+
+        addEntry(citation, opts.styleSlug as GeneratorSlug, opts.requestInput ?? "");
+        revealResultRegion(opts.revealResult);
+      } catch (error) {
         setState("error");
-        setError(readError(payload, "Citation lookup failed. Try manual entry."));
+        setError(
+          error instanceof Error && error.name === "AbortError"
+            ? "Citation lookup timed out. Try again or enter the fields manually."
+            : "Citation lookup failed. Try again or enter the fields manually."
+        );
         setResult(null);
         if (!opts.requestMetadata) {
           setMetadata(createBlankMetadata(toBlankSourceType(opts.requestSourceType)));
         }
         revealResultRegion(opts.revealResult);
-        return;
       }
-
-      const citation = payload as CitationResponse;
-      setResult(citation);
-      setMetadata(citation.metadata);
-      setState("success");
-
-      addEntry(citation, opts.styleSlug as GeneratorSlug, opts.requestInput ?? "");
-      revealResultRegion(opts.revealResult);
     },
     [cslOverride, addEntry]
   );
@@ -223,13 +309,9 @@ export function GeneratorClient({
       if (cslOverride) body.cslFile = cslOverride;
 
       try {
-        const res = await fetch("/api/citations", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(body)
-        });
+        const res = await postCitation(body);
         if (res.ok) {
-          const citation = (await res.json()) as CitationResponse;
+          const citation = (await readCitationPayload(res)) as CitationResponse;
           results.push(citation);
           addEntry(citation, activeFormat.slug, doi);
         }
@@ -287,6 +369,13 @@ export function GeneratorClient({
     setState("empty");
     setError("");
     setActiveExampleLabel("");
+  }
+
+  function chooseCompactStyle(choice: CompactStyleChoice) {
+    changeFormat(choice.slug);
+    if (choice.versionKey) setSelectedVersion(choice.versionKey);
+    setCompactStyleOpen(false);
+    setCompactStyleSearch("");
   }
 
   function chooseManualTemplate(template: ManualSourceTemplate) {
@@ -358,20 +447,60 @@ export function GeneratorClient({
       <section id="generator" className="site-shell generator-stage py-4">
         <div className="citation-console">
           <div className="citation-dock">
-            <label className="dock-style">
+            <div className="dock-style" ref={compactStyleRef}>
               <span>Citation style</span>
-              <select
-                value={activeFormat.slug}
-                onChange={(event) => changeFormat(event.target.value as GeneratorSlug)}
-                aria-label="Citation style"
+              <button
+                type="button"
+                className="dock-style-trigger"
+                aria-haspopup="listbox"
+                aria-expanded={compactStyleOpen}
+                onClick={() => setCompactStyleOpen((open) => !open)}
               >
-                {(formatOptions ?? [activeFormat]).map((option) => (
-                  <option key={option.slug} value={option.slug}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </label>
+                <span>{compactStyleLabel}</span>
+                <CaretDown aria-hidden="true" size={16} weight="bold" />
+              </button>
+
+              {compactStyleOpen ? (
+                <div className="compact-style-menu" role="listbox" aria-label="Citation style">
+                  <label className="compact-style-search">
+                    <MagnifyingGlass aria-hidden="true" size={18} />
+                    <input
+                      type="search"
+                      value={compactStyleSearch}
+                      onChange={(event) => setCompactStyleSearch(event.target.value)}
+                      placeholder="Find by name"
+                      aria-label="Find citation style by name"
+                      autoFocus
+                    />
+                  </label>
+
+                  <div className="compact-style-list">
+                    {filteredCompactStyleChoices.map((choice) => {
+                      const selected =
+                        activeFormat.slug === choice.slug &&
+                        (choice.versionKey ? selectedVersion === choice.versionKey : true);
+
+                      return (
+                        <button
+                          key={choice.id}
+                          type="button"
+                          role="option"
+                          aria-selected={selected}
+                          className={selected ? "is-selected" : undefined}
+                          onClick={() => chooseCompactStyle(choice)}
+                        >
+                          <span>
+                            <strong>{choice.label}</strong>
+                            <small>{choice.helper}</small>
+                          </span>
+                          {selected ? <Check aria-hidden="true" size={18} weight="bold" /> : null}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ) : null}
+            </div>
             <label className="dock-query" htmlFor={`${activeFormat.slug}-quick-input`}>
               <span>Cite a webpage, book, article, and more</span>
               <input
@@ -427,26 +556,7 @@ export function GeneratorClient({
               {sourceType === "video" ? "Video mode selected" : "Cite a video"}
             </button>
 
-            {activeFormat.versions && activeFormat.versions.length > 1 ? (
-              <select
-                value={selectedVersion ?? activeFormat.versions[0].key}
-                onChange={(e) => {
-                  setSelectedVersion(e.target.value);
-                  setResult(null);
-                  setState("empty");
-                  setError("");
-                  setActiveExampleLabel("");
-                }}
-                aria-label={`${activeFormat.label} version`}
-                className="underbar-select"
-              >
-                {activeFormat.versions.map((v) => (
-                  <option key={v.key} value={v.key}>
-                    {v.label}
-                  </option>
-                ))}
-              </select>
-            ) : null}
+            <span className="underbar-style-note">{compactStyleLabel}</span>
           </div>
 
           <InputDetectionBadge text={detectionText} className="citation-detection" />
@@ -804,6 +914,42 @@ function ErrorState({ message, compact }: { message: string; compact: boolean })
 /* -------------------------------------------------------------------------- */
 /*  Utilities                                                                 */
 /* -------------------------------------------------------------------------- */
+
+async function postCitation(body: Record<string, unknown>) {
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), 18000);
+  try {
+    return await fetch("/api/citations", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+      signal: controller.signal
+    });
+  } finally {
+    window.clearTimeout(timeout);
+  }
+}
+
+async function readCitationPayload(response: Response): Promise<CitationResponse | { error?: string }> {
+  try {
+    return (await response.json()) as CitationResponse | { error?: string };
+  } catch {
+    return { error: errorMessageForStatus(response.status) };
+  }
+}
+
+function errorMessageForStatus(status: number) {
+  if (status === 429) {
+    return "The metadata provider is rate limiting requests. Wait a minute or enter the source manually.";
+  }
+  if (status === 503) {
+    return "Citation lookup is temporarily unavailable. Try again or enter the source manually.";
+  }
+  if (status >= 500) {
+    return "Citation lookup failed on the server. Try again or enter the source manually.";
+  }
+  return "Citation lookup failed. Try manual entry.";
+}
 
 function createBlankMetadata(sourceType: ResolvedSourceType, cslType?: string): CitationMetadata {
   return {

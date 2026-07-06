@@ -247,10 +247,10 @@ function BestCitationGenerator2026() {
       </section>
 
       <section>
-        <h2>Our generator: what we built differently</h2>
+        <h2>CitationGen: what is different</h2>
         <p>
-          We built this generator after finding the same three gaps in every tool we tested.
-          Here is what is different — and what is not.
+          CitationGen focuses on three gaps that show up in many citation tools:
+          source labels, editable fields, and missing-field warnings.
         </p>
 
         <div className="article-table-wrap">
@@ -262,7 +262,7 @@ function BestCitationGenerator2026() {
                 <th scope="col">MyBib</th>
                 <th scope="col">Scribbr</th>
                 <th scope="col">ZoteroBib</th>
-                <th scope="col">Our tool</th>
+                <th scope="col">CitationGen</th>
               </tr>
             </thead>
             <tbody>
@@ -282,8 +282,8 @@ function BestCitationGenerator2026() {
         </div>
 
         <p>
-          Our tool is not the most feature-complete. ZoteroBib has 10,000 styles; we have 10.
-          Citation Machine covers niche journal formats we do not. We made a deliberate tradeoff:
+          CitationGen is not the most feature-complete option. ZoteroBib has 10,000 styles;
+          Citation Machine covers niche journal formats CitationGen does not. The tradeoff is
           depth over breadth. Every style we support has version-specific CSL files, NLM journal
           abbreviation integration where relevant, and source labels that tell you exactly where
           each metadata field came from.
@@ -301,8 +301,8 @@ function BestCitationGenerator2026() {
               <tr><th>A quick bibliography for a paper</th><td>MyBib</td><td>Fastest free tool. No friction. Same engine as Zotero.</td></tr>
               <tr><th>10,000+ styles for journal submission</th><td>ZoteroBib</td><td>Unmatched style breadth. Best for researchers who plan to use Zotero.</td></tr>
               <tr><th>7,000+ styles + editing (with budget)</th><td>Citation Machine</td><td>Widest commercial style library. But editing costs $9.95/month.</td></tr>
-              <tr><th>Source verification, editing, and warnings</th><td>Our generator</td><td>Only tool with source labels, full editing, and missing-field warnings.</td></tr>
-              <tr><th>Science styles (ACS, AMA, Vancouver)</th><td>Our generator</td><td>Only free tool with automatic NLM journal abbreviation support.</td></tr>
+              <tr><th>Source verification, editing, and warnings</th><td>CitationGen</td><td>Only tool with source labels, full editing, and missing-field warnings.</td></tr>
+              <tr><th>Science styles (ACS, AMA, Vancouver)</th><td>CitationGen</td><td>Only free tool with automatic NLM journal abbreviation support.</td></tr>
             </tbody>
           </table>
         </div>
@@ -521,18 +521,18 @@ function FreeVsPaid() {
         <div className="article-table-wrap">
           <table>
             <thead>
-              <tr><th scope="col">Feature</th><th scope="col">Free tools<br/>(MyBib, ZoteroBib, our tool)</th><th scope="col">Paid tools<br/>(Citation Machine, Scribbr, EasyBib)</th><th scope="col">Is the paid version better?</th></tr>
+              <tr><th scope="col">Feature</th><th scope="col">Free tools<br/>(MyBib, ZoteroBib, CitationGen)</th><th scope="col">Paid tools<br/>(Citation Machine, Scribbr, EasyBib)</th><th scope="col">Is the paid version better?</th></tr>
             </thead>
             <tbody>
               <tr><th>Citation generation</th><td>Yes</td><td>Yes</td><td>Identical output. Same data sources, same formatting engines.</td></tr>
               <tr><th>Multiple citation styles</th><td>Yes — 9,000+ (MyBib, ZoteroBib)</td><td>Yes — 7,000+ (Citation Machine)</td><td>Free tools offer more styles, not fewer.</td></tr>
-              <tr><th>Field editing</th><td>Varies: limited on MyBib and ZoteroBib, full on our tool</td><td>Yes (paid tier only on Citation Machine)</td><td>Only our free tool and paid Citation Machine offer full field editing.</td></tr>
-              <tr><th>Source labels</th><td>Only our tool</td><td>No</td><td>No paid tool shows metadata provenance.</td></tr>
-              <tr><th>Missing-field warnings</th><td>Only our tool</td><td>No</td><td>Paid tools silently omit gaps just like free tools.</td></tr>
+              <tr><th>Field editing</th><td>Varies: limited on MyBib and ZoteroBib, full on CitationGen</td><td>Yes (paid tier only on Citation Machine)</td><td>CitationGen and paid Citation Machine offer full field editing.</td></tr>
+              <tr><th>Source labels</th><td>CitationGen only</td><td>No</td><td>No paid tool shows metadata provenance.</td></tr>
+              <tr><th>Missing-field warnings</th><td>CitationGen only</td><td>No</td><td>Paid tools silently omit gaps just like free tools.</td></tr>
               <tr><th>Plagiarism check</th><td>No</td><td>Yes</td><td>The main reason to pay. But your university may already provide Turnitin.</td></tr>
               <tr><th>Grammar check</th><td>No</td><td>Yes</td><td>Free Grammarly matches most paid grammar tools.</td></tr>
               <tr><th>Ad-free interface</th><td>Yes (all except Citation Machine free)</td><td>Yes</td><td>Citation Machine free tier has ads; the others do not.</td></tr>
-              <tr><th>No registration required</th><td>Yes (ZoteroBib, our tool)</td><td>No</td><td>All paid tools require accounts.</td></tr>
+              <tr><th>No registration required</th><td>Yes (ZoteroBib, CitationGen)</td><td>No</td><td>All paid tools require accounts.</td></tr>
               <tr><th>Export to Word / Google Docs</th><td>Yes (MyBib)</td><td>Yes</td><td>Equal. MyBib free matches paid export features.</td></tr>
             </tbody>
           </table>
@@ -563,7 +563,7 @@ function FreeVsPaid() {
             <tbody>
               <tr><th>MyBib</th><td>$0</td><td>$0</td><td>$0</td></tr>
               <tr><th>ZoteroBib</th><td>$0</td><td>$0</td><td>$0</td></tr>
-              <tr><th>Our generator</th><td>$0</td><td>$0</td><td>$0</td></tr>
+              <tr><th>CitationGen</th><td>$0</td><td>$0</td><td>$0</td></tr>
               <tr><th>Citation Machine (Chegg Writing)</th><td>$9.95</td><td>$59.40 (50% off)</td><td>$237.60</td></tr>
               <tr><th>Scribbr (plagiarism + proofreading)</th><td>~$19.95</td><td>~$119.95</td><td>~$479.80</td></tr>
             </tbody>

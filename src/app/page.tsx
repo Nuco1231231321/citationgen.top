@@ -6,9 +6,7 @@ import {
   CheckCircle,
   Database,
   ListChecks,
-  MagnifyingGlass,
-  PencilSimpleLine,
-  WarningCircle
+  MagnifyingGlass
 } from "@phosphor-icons/react/dist/ssr";
 import { GeneratorClient, type CitationExample } from "@/components/GeneratorClient";
 import { HomeTrustExperience } from "@/components/HomeTrustExperience";
@@ -59,24 +57,24 @@ const homeExamples: CitationExample[] = [
 const heroChecks = [
   {
     title: "Source labels",
-    body: "CrossRef, Google Books, URL metadata, NLM, or manual entry stays visible."
+    body: "See whether a result came from CrossRef, Google Books, URL metadata, NLM, or manual entry."
   },
   {
     title: "Missing-field warnings",
-    body: "Author, date, page, DOI, ISBN, and URL gaps are shown before you copy."
+    body: "Review missing author, date, page, DOI, ISBN, and URL details before you copy."
   },
   {
     title: "Editable metadata",
-    body: "Fix source details, regenerate, then copy the citation or save it to your library."
+    body: "Correct source details, regenerate the citation, then copy it or save it to your library."
   }
 ];
 
 const featureSections = [
   {
-    eyebrow: "01 · Fast start",
+    eyebrow: "Start with any source",
     title: "Paste the source you already have.",
     body:
-      "Students and researchers usually arrive with a DOI, ISBN, URL, title, or a messy source note. The homepage keeps the generator above the fold so the first useful action is obvious.",
+      "Start with a DOI, ISBN, URL, title, or rough source note. CitationGen searches public metadata first, then keeps the result editable.",
     image: "/images/home/citation-generator-hero-desk.jpg",
     alt: "Warm study desk with a citation generator interface, research notes, books, and copy-ready citation output.",
     icon: MagnifyingGlass,
@@ -84,10 +82,10 @@ const featureSections = [
     reverse: false
   },
   {
-    eyebrow: "02 · Visible evidence",
+    eyebrow: "Check source data",
     title: "Show where the citation data came from.",
     body:
-      "Trust comes from traceability. CitationGen should not feel like a black box: it labels metadata providers and keeps incomplete public records visible instead of hiding the problem.",
+      "Check the source label under each result so you know whether the metadata came from CrossRef, Google Books, URL metadata, NLM, or manual entry.",
     image: "/images/home/citation-data-source-flow.jpg",
     alt: "Citation data source flow showing DOI, ISBN, and URL lookup through CrossRef, Google Books, URL metadata, and editable fields.",
     icon: Database,
@@ -95,10 +93,10 @@ const featureSections = [
     reverse: true
   },
   {
-    eyebrow: "03 · Review before copy",
+    eyebrow: "Review and copy",
     title: "Make the last step feel controlled.",
     body:
-      "The audience is careful: students, academic writers, lab report authors, medical coursework users, and technical researchers. The interface needs to make correction and copying feel calm, not rushed.",
+      "Review warnings, edit incomplete fields, and copy the final citation only after the source details match your assignment or journal requirements.",
     image: "/images/home/citation-disciplines.jpg",
     alt: "Academic citation examples arranged for chemistry, medical, engineering, and humanities writing contexts.",
     icon: ListChecks,
@@ -111,45 +109,17 @@ const quickStyleSlugs = ["apa", "mla", "chicago", "ama", "acs", "ieee"] as const
 
 export default function HomePage() {
   return (
-    <main>
+    <main className="citationgen-page">
       <JsonLd data={homeJsonLd()} />
 
-      <section className="site-shell home-hero-simple" aria-labelledby="home-hero-heading">
-        <p className="home-kicker">Free citation generator</p>
-        <h1 id="home-hero-heading" className="font-editorial text-balance text-[40px] leading-[1.08] text-ink md:text-[68px]">
-          Generate citations you can check before you trust.
-        </h1>
-        <p className="mt-5 max-w-[66ch] text-pretty text-[17px] leading-8 text-dim md:text-[19px]">
-          Paste a DOI, ISBN, URL, or title. CitationGen looks up public metadata, shows the
-          source trail, flags missing fields, and keeps every result editable before you copy.
-        </p>
-        <div className="hero-action-row">
-          <a href="#generator" className="btn inline-flex">
-            Start citing
-          </a>
-          <Link href="/tools/" className="action-secondary">
-            Browse citation tools
-          </Link>
-        </div>
-        <ul className="hero-proof-list" aria-label="CitationGen trust checks">
-          {heroChecks.map((check) => (
-            <li key={check.title}>
-              <strong>{check.title}</strong>
-              <span>{check.body}</span>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section className="home-generator-stage" aria-labelledby="home-generator-heading">
-        <div className="site-shell home-generator-heading">
-          <p className="home-kicker">Main function</p>
-          <h2 id="home-generator-heading" className="font-editorial text-balance text-[30px] leading-[1.16] text-ink md:text-[44px]">
-            The fastest path is still the most important path.
-          </h2>
-          <p className="mt-3 max-w-[62ch] text-pretty text-sm leading-6 text-dim">
-            The page should answer one question immediately: can I generate a usable citation
-            right now and verify the fields before submitting it?
+      <section className="home-hero-scribbr" aria-labelledby="home-hero-heading">
+        <div className="site-shell home-hero-center">
+          <h1 id="home-hero-heading" className="home-hero-title">
+            Generate citations you can check before you trust.
+          </h1>
+          <p className="home-hero-subtitle">
+            Paste a DOI, ISBN, URL, or title. CitationGen looks up public metadata, shows the
+            source trail, flags missing fields, and keeps every result editable before you copy.
           </p>
         </div>
 
@@ -162,7 +132,23 @@ export default function HomePage() {
           introText="Choose a style, paste a source, and generate a citation without leaving this page."
         />
 
-        <div className="site-shell quick-format-strip" aria-label="Popular citation format shortcuts">
+        <div className="site-shell home-review-row" aria-label="CitationGen trust checks">
+          <div className="review-summary-card">
+            <strong>Source checks</strong>
+            <StarBoxes />
+            <span>Check source labels, warnings, and editable fields before you copy.</span>
+          </div>
+          {heroChecks.map((check) => (
+            <article key={check.title} className="review-proof-card">
+              <StarBoxes compact />
+              <strong>{check.title}</strong>
+              <p>{check.body}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <div className="site-shell quick-format-strip citation-style-strip" aria-label="Popular citation format shortcuts">
           <span>Popular styles</span>
           <div>
             {quickStyleSlugs.map((slug) => {
@@ -174,18 +160,17 @@ export default function HomePage() {
               );
             })}
           </div>
-        </div>
-      </section>
+      </div>
 
       <section className="site-shell home-feature-stack py-12" aria-labelledby="home-feature-heading">
         <div className="home-section-heading">
-          <p className="home-kicker">How it earns trust</p>
+          <p className="home-kicker">Source checks</p>
           <h2 id="home-feature-heading" className="font-editorial text-balance text-[30px] leading-[1.16] text-ink md:text-[46px]">
-            A citation tool should be fast, but never opaque.
+            See the citation data before you copy.
           </h2>
           <p className="mt-3 max-w-[66ch] text-pretty text-sm leading-6 text-dim">
-            The visual rhythm is warmer and more editorial, but the product logic stays practical:
-            input, lookup, warning, edit, copy.
+            Generate references quickly, then inspect the metadata source, missing-field warnings,
+            and editable details in the same workflow.
           </p>
         </div>
 
@@ -197,16 +182,13 @@ export default function HomePage() {
                 key={section.title}
                 className={`home-feature-row ${section.reverse ? "is-reverse" : ""}`}
               >
-                <figure className="home-feature-media">
-                  <Image
-                    src={section.image}
-                    alt={section.alt}
-                    width={1800}
-                    height={1012}
-                    sizes="(max-width: 760px) calc(100vw - 28px), 520px"
-                    className="home-feature-image"
-                  />
-                </figure>
+                <FeatureVisual
+                  title={section.title}
+                  bullets={section.bullets}
+                  icon={Icon}
+                  image={section.image}
+                  alt={section.alt}
+                />
 
                 <div className="home-feature-copy">
                   <div className="home-feature-icon" aria-hidden="true">
@@ -241,8 +223,8 @@ export default function HomePage() {
             Open the exact style your paper requires.
           </h2>
           <p className="mt-3 max-w-[58ch] text-pretty text-sm leading-6 text-dim">
-            Format pages stay available for search users, while the homepage keeps the core
-            generator close enough for quick use.
+            Choose APA, MLA, Chicago, AMA, ACS, IEEE, and other common academic formats for
+            papers, lab reports, journal articles, and coursework.
           </p>
         </div>
         <div className="home-style-grid">
@@ -269,5 +251,50 @@ export default function HomePage() {
 
       <HomeTrustExperience />
     </main>
+  );
+}
+
+function StarBoxes({ compact = false }: { compact?: boolean }) {
+  return (
+    <span className={compact ? "review-stars is-compact" : "review-stars"} aria-label="Five check marks">
+      {Array.from({ length: 5 }).map((_, index) => (
+        <span key={index} aria-hidden="true">
+          ★
+        </span>
+      ))}
+    </span>
+  );
+}
+
+function FeatureVisual({
+  title,
+  bullets,
+  icon: Icon,
+  image,
+  alt
+}: {
+  title: string;
+  bullets: string[];
+  icon: typeof MagnifyingGlass;
+  image: string;
+  alt: string;
+}) {
+  return (
+    <div className="home-feature-media home-feature-visual">
+      <Image src={image} alt={alt} fill sizes="(max-width: 1100px) 100vw, 46vw" className="home-feature-photo" />
+      <div className="home-feature-visual-scrim" aria-hidden="true" />
+      <div className="home-feature-glass">
+        <div className="feature-diagram-icon" aria-hidden="true">
+          <Icon size={24} />
+        </div>
+        <strong>{title}</strong>
+      </div>
+      <div className="feature-scan-line" aria-hidden="true" />
+      <div className="feature-diagram-list" aria-label={`${title} highlights`}>
+        {bullets.map((bullet) => (
+          <span key={bullet}>{bullet}</span>
+        ))}
+      </div>
+    </div>
   );
 }

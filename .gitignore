@@ -8,3 +8,4 @@ coverage/
 *.log
 .DS_Store
 tsconfig.tsbuildinfo
+data/nlm-journals-d1.sql

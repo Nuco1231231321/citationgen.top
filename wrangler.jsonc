@@ -8,6 +8,14 @@
     "directory": ".open-next/assets",
     "binding": "ASSETS"
   },
+  "d1_databases": [
+    {
+      "binding": "NLM_DB",
+      "database_name": "citationgen-nlm",
+      "database_id": "0805ba92-6486-47e7-bd03-fd574c518948",
+      "migrations_dir": "migrations"
+    }
+  ],
   "services": [
     {
       "binding": "WORKER_SELF_REFERENCE",
@@ -15,6 +23,7 @@
     }
   ],
   "vars": {
-    "NEXT_PUBLIC_SITE_URL": "https://citationgen.top"
+    "NEXT_PUBLIC_SITE_URL": "https://citationgen.top",
+    "CROSSREF_MAILTO": "nice2culuvs@gmail.com"
   }
 }

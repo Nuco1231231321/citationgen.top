@@ -24,6 +24,24 @@ const article: CitationMetadata = {
   warnings: []
 };
 
+const scienceArticle: CitationMetadata = {
+  id: "science-water-example",
+  sourceType: "journal",
+  title: "The Structure of Ordinary Water",
+  authors: [{ given: "Henry S.", family: "Frank" }],
+  issued: { year: 1970, month: 8, day: 14 },
+  containerTitle: "Science",
+  volume: "169",
+  issue: "3946",
+  page: "635-641",
+  DOI: "10.1126/science.169.3946.635",
+  URL: "https://doi.org/10.1126/science.169.3946.635",
+  publisher: "American Association for the Advancement of Science (AAAS)",
+  sourceLabel: "Data from CrossRef",
+  sourceProvider: "crossref",
+  warnings: []
+};
+
 describe("citation rendering", () => {
   it("renders the same metadata across all 10 formats", async () => {
     for (const slug of generatorSlugs) {
@@ -56,5 +74,10 @@ describe("citation rendering", () => {
     const result = await renderCitation(article, "apa");
     expect(result.fullCitation).toContain("Shokri, A., & Que, L.");
     expect(result.fullCitation).not.toContain("&#38;");
+  });
+
+  it("does not fail Chicago rendering for sparse journal records", async () => {
+    const result = await renderCitation(scienceArticle, "chicago");
+    expect(result.fullCitation || result.inTextCitation).toContain("Frank");
   });
 });

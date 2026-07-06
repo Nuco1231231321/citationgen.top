@@ -104,13 +104,13 @@ export function HomeTrustExperience() {
     <>
       <section className="site-shell home-testimonials py-12" aria-labelledby="home-testimonials-heading">
         <div className="home-section-heading">
-          <p className="home-kicker">User comments</p>
+          <p className="home-kicker">Writing workflows</p>
           <h2 id="home-testimonials-heading" className="font-editorial text-balance text-[30px] leading-[1.16] text-ink md:text-[42px]">
-            People come here to cite quickly, then verify before they trust it.
+            Built for the moment before you submit.
           </h2>
           <p className="mt-3 max-w-[62ch] text-pretty text-sm leading-6 text-dim">
-            The page should feel calm, but the workflow has to stay practical: paste, check,
-            edit, copy, save.
+            Create citations for papers, lab reports, literature reviews, and reference lists
+            without losing sight of source quality.
           </p>
         </div>
 
@@ -174,8 +174,8 @@ export function HomeTrustExperience() {
               Questions before you copy a citation.
             </h2>
             <p className="mt-3 text-pretty text-sm leading-6 text-dim">
-              Short answers for the checks users usually make before submitting a bibliography,
-              lab report, or reference list.
+              Check what you can paste, how missing fields are handled, and which citation
+              styles are available.
             </p>
           </div>
 

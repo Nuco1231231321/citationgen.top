@@ -2,7 +2,7 @@ import CSL from "citeproc";
 import { generatorFormats, isGeneratorSlug, type GeneratorSlug } from "@/lib/formats";
 import { stripHtml } from "@/lib/utils";
 import type { CitationMetadata, Contributor, DateParts } from "@/lib/metadata/types";
-import { lookupJournalAbbreviation } from "./nlm";
+import { lookupJournalAbbreviation, type D1DatabaseLike } from "./nlm";
 import cslData from "./csl-data.json";
 
 type CslName = {
@@ -47,6 +47,8 @@ export type RenderedCitation = {
 
 type RenderCitationOptions = {
   assetOrigin?: string;
+  nlmDatabase?: D1DatabaseLike;
+  disableJournalAbbreviation?: boolean;
 };
 
 const styleCache = new Map<string, string>();
@@ -58,11 +60,14 @@ export async function renderCitation(
   cslFileOverride?: string,
   options: RenderCitationOptions = {}
 ): Promise<RenderedCitation> {
-  const metadataWithAbbreviation = await applyJournalAbbreviation(
-    metadata,
-    isGeneratorSlug(styleSlug) ? styleSlug : "apa",
-    options.assetOrigin
-  );
+  const metadataWithAbbreviation = options.disableJournalAbbreviation
+    ? metadata
+    : await applyJournalAbbreviation(
+        metadata,
+        isGeneratorSlug(styleSlug) ? styleSlug : "apa",
+        options.assetOrigin,
+        options.nlmDatabase
+      );
   const item = toCslItem(metadataWithAbbreviation);
   const cslFilename = cslFileOverride ?? (
     isGeneratorSlug(styleSlug)
@@ -71,7 +76,35 @@ export async function renderCitation(
   );
   const styleXml = readStyle(cslFilename);
   const localeXml = readLocale();
+  let citationStrings: { fullCitationHtml: string; inTextCitationHtml: string };
+  let renderedMetadata = metadataWithAbbreviation;
 
+  try {
+    citationStrings = renderCslStrings(item, styleXml, localeXml);
+  } catch (error) {
+    if (!item.page || !isCiteprocPageRangeError(error)) throw error;
+
+    const itemWithoutPage = { ...item };
+    delete itemWithoutPage.page;
+    citationStrings = renderCslStrings(itemWithoutPage, styleXml, localeXml);
+    renderedMetadata = {
+      ...metadataWithAbbreviation,
+      page: undefined,
+      warnings: [
+        ...metadataWithAbbreviation.warnings,
+        "The page range could not be rendered automatically. Add the page range manually before submitting."
+      ]
+    };
+  }
+
+  return {
+    metadata: renderedMetadata,
+    fullCitation: stripHtml(citationStrings.fullCitationHtml || citationStrings.inTextCitationHtml),
+    inTextCitation: stripHtml(citationStrings.inTextCitationHtml)
+  };
+}
+
+function renderCslStrings(item: CslItem, styleXml: string, localeXml: string) {
   const items: Record<string, CslItem> = {
     [item.id]: item
   };
@@ -83,33 +116,63 @@ export async function renderCitation(
 
   const engine = new CSL.Engine(sys, styleXml, "en-US");
   engine.updateItems([item.id]);
-  const bibliography = engine.makeBibliography();
-  const bibliographyHtml = bibliography[1]?.join(" ") ?? "";
-  const citationHtml = engine.previewCitationCluster(
-    {
-      citationItems: [{ id: item.id }],
-      properties: { noteIndex: 1 }
-    },
-    [],
-    [],
-    "html"
-  );
+  const bibliographyHtml = renderBibliographyHtml(engine);
+  const citationHtml = renderCitationHtml(engine, item.id);
 
   return {
-    metadata: metadataWithAbbreviation,
-    fullCitation: stripHtml(bibliographyHtml),
-    inTextCitation: stripHtml(citationHtml)
+    fullCitationHtml: bibliographyHtml || citationHtml,
+    inTextCitationHtml: citationHtml
   };
+}
+
+function renderBibliographyHtml(engine: InstanceType<typeof CSL.Engine>) {
+  try {
+    const bibliography = engine.makeBibliography();
+    if (!Array.isArray(bibliography) || !Array.isArray(bibliography[1])) return "";
+    return bibliography[1].join(" ");
+  } catch {
+    return "";
+  }
+}
+
+function renderCitationHtml(engine: InstanceType<typeof CSL.Engine>, itemId: string) {
+  const citation = {
+    citationItems: [{ id: itemId }],
+    properties: { noteIndex: 1 }
+  };
+
+  try {
+    return (
+      engine.previewCitationCluster(citation, [], [], "html") ||
+      engine.makeCitationCluster([{ id: itemId }]) ||
+      ""
+    );
+  } catch {
+    try {
+      return engine.makeCitationCluster([{ id: itemId }]) || "";
+    } catch {
+      return "";
+    }
+  }
+}
+
+function isCiteprocPageRangeError(error: unknown) {
+  if (!(error instanceof Error)) return false;
+  return (
+    error.message.includes("Cannot read properties of null") &&
+    (error.stack?.includes("page_mangler") || error.stack?.includes("processNumber"))
+  );
 }
 
 async function applyJournalAbbreviation(
   metadata: CitationMetadata,
   styleSlug: GeneratorSlug,
-  assetOrigin?: string
+  assetOrigin?: string,
+  database?: D1DatabaseLike
 ): Promise<CitationMetadata> {
   if (metadata.sourceType !== "journal" || !metadata.containerTitle) return metadata;
 
-  const lookup = await lookupJournalAbbreviation(metadata.containerTitle, styleSlug, assetOrigin);
+  const lookup = await lookupJournalAbbreviation(metadata.containerTitle, styleSlug, assetOrigin, database);
   if (!lookup) return metadata;
 
   return {

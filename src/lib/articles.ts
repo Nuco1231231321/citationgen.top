@@ -159,7 +159,7 @@ export const articles: ArticleRecord[] = [
       "Paid citation tools unlock editing, plagiarism checks, and writing suggestions — none of which improve metadata accuracy.",
       "The free ZoteroBib and MyBib engines are identical to paid tools — they use the same citeproc-js library.",
       "If you only need citations, a paid subscription is unnecessary. If you want an all-in-one writing suite, the cost may be justified.",
-      "Our tool is free with source labels, editable fields, and missing-field warnings — features that paid tools do not offer."
+      "CitationGen is free with source labels, editable fields, and missing-field warnings — features that paid tools do not offer."
     ],
     author: {
       name: "Editorial Team",
