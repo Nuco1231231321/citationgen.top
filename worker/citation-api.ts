@@ -1,6 +1,6 @@
 import { renderCitation } from "../src/lib/citation/csl";
 import type { D1DatabaseLike } from "../src/lib/citation/nlm";
-import { generatorFormats, generatorSlugs, isGeneratorSlug, type GeneratorSlug } from "../src/lib/formats";
+import { generatorSlugs, isGeneratorSlug, type GeneratorSlug } from "../src/lib/formats";
 import { resolveCitationMetadata } from "../src/lib/metadata/resolve";
 import {
   MetadataError,
@@ -96,7 +96,7 @@ function json(body: unknown, status = 200) {
   });
 }
 
-function renderJournalCitation(metadata: CitationMetadata, style: GeneratorSlug) {
+export function renderJournalCitation(metadata: CitationMetadata, style: GeneratorSlug) {
   const year = metadata.issued?.year ? String(metadata.issued.year) : "n.d.";
   const title = endWith(metadata.title || "Untitled source", ".");
   const journal = metadata.containerTitle || "Journal";

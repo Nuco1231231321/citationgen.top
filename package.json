@@ -12,6 +12,7 @@
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
+    "smoke:citations": "node scripts/smoke-citations.mjs",
     "cf:build:raw": "node scripts/run-node-tool.mjs opennextjs-cloudflare build",
     "cf:patch-worker": "node scripts/patch-worker-entry.mjs",
     "cf:build": "npm run cf:build:raw && npm run cf:patch-worker",
