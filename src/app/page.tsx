@@ -111,7 +111,7 @@ const workflowRoutes = [
   {
     title: "Lab reports and chemistry writing",
     body:
-      "Start with a DOI or article title when the source came from a journal database. These workflows usually depend on clean journal metadata and visible abbreviation checks.",
+      "Start with a DOI or article title when the source came from a journal database. These citations usually depend on clean journal metadata and visible abbreviation checks.",
     formats: ["acs", "ama", "cse"] as const,
     note: "Best fit for chemistry, life science, and lab-heavy coursework."
   },
@@ -190,8 +190,8 @@ export default function HomePage() {
                 <strong>Visible data sources</strong>
               </div>
               <p>
-                Results stay legible because the source label is part of the workflow, not hidden
-                in a tooltip or system log.
+                See the source label next to the citation so you can judge how much to trust the
+                record before you copy it.
               </p>
               <div className="home-provider-row" aria-label="Metadata providers">
                 {providerLabels.map((label) => (
@@ -216,11 +216,11 @@ export default function HomePage() {
       <section className="site-shell home-style-atlas" aria-labelledby="home-style-atlas-heading">
         <div className="home-style-atlas-copy">
           <h2 id="home-style-atlas-heading" className="font-editorial text-balance text-[28px] leading-[1.14] text-ink md:text-[38px]">
-            Start in the style you need most, then switch without losing the workflow.
+            Open the style your assignment names, then use the same citation flow every time.
           </h2>
           <p>
-            Open the exact citation format your paper requires and keep the same lookup habit
-            across APA, MLA, Chicago, AMA, ACS, and IEEE.
+            Jump into APA, MLA, Chicago, AMA, ACS, or IEEE without learning a different interface
+            for each style.
           </p>
         </div>
         <div className="home-style-atlas-rail" aria-label="Popular citation format shortcuts">
@@ -242,8 +242,8 @@ export default function HomePage() {
             Keep the lookup fast, but make the review step feel deliberate.
           </h2>
           <p className="mt-3 max-w-[66ch] text-pretty text-sm leading-6 text-dim">
-            The page should help users move from raw source details to a checked citation without
-            jumping between tools, tabs, or opaque results.
+            Start with the source detail you have, then review the citation before you paste it
+            into a paper, lab report, or reading list.
           </p>
         </div>
 
@@ -315,8 +315,8 @@ export default function HomePage() {
             </h2>
           </div>
           <p className="home-route-map-summary">
-            Some users already know they need APA or IEEE. Others only know they are writing a
-            lab report, a policy paper, or a book-heavy essay. This section gives both paths.
+            If your instructor already named APA or IEEE, open it directly. If not, start with
+            the writing context below and choose the style that fits the assignment.
           </p>
         </div>
 

@@ -92,9 +92,8 @@ export function HomeTrustExperience() {
               Most citation mistakes happen before the final punctuation.
             </h2>
             <p>
-              The important moment is usually the review step: the part where you decide whether
-              the source record is complete enough to use as-is, or whether it still needs manual
-              fixes.
+              Before you copy, check whether the source record is complete enough to use as-is or
+              whether it still needs a manual fix.
             </p>
 
             <ul className="home-reader-checklist">
@@ -125,8 +124,8 @@ export function HomeTrustExperience() {
               Questions that matter when the source record is incomplete.
             </h2>
             <p className="mt-3 text-pretty text-sm leading-6 text-dim">
-              These are the practical checks users make when a DOI is missing fields, a website
-              has thin metadata, or a citation needs one last edit before it is copied.
+              Use these answers when a DOI is missing fields, a website has thin metadata, or a
+              citation needs one last edit before you use it.
             </p>
 
             <div className="faq-fact-list">
